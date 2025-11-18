@@ -2,7 +2,11 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div>N</div>
+    <div>
+      <div className=''>
+        OYH
+      </div>
+    </div>
   )
 }
 
