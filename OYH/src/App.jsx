@@ -1,14 +1,14 @@
 import React from 'react'
-import Body from './components/body'
 import Navbar from './components/navbar'
+import Body from './components/body'
+import Footer from './components/footer'
 
 const App = () => {
   return (
     <div>
-    <Navbar/>
-    <Body/>
-
-
+      <Navbar/>
+      <Body/>
+      <Footer/>
     </div>
   )
 }
