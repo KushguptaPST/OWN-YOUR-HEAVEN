@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from "react-router-dom";
+
 
 const Navbar = () => {
   return (
@@ -20,7 +22,7 @@ const Navbar = () => {
       </a></button>
       <div className='text-xl h-20 w-65 flex justify-center items-center border-gray-100 border-2'>
         <div className='h-8 w-8 rounded-4xl mr-5 bg-[url(https://i.pinimg.com/736x/97/21/05/972105c5a775f38cf33d3924aea053f1.jpg)] bg-cover '></div>
-        <button><a href='#'>Login</a></button>/
+        <button><Link to="/login">Login</Link></button>/
         <button><a href='#'>Signup</a></button>
       </div>
     </div>

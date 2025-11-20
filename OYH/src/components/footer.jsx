@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from "react-router-dom";
+
 
 function Footer() {
   return (
@@ -19,13 +21,19 @@ function Footer() {
                 </a></button>
             </div>
             <div className='ml-5 flex flex-col justify-evenly border-l border-gray-200'>
-                <a href='#' className='ml-5'>About Us</a>
-                <a href='#' className='ml-5'>Support</a>
-                <a href='#' className='ml-5'>Terms/Careers</a>
-                <a href='#' className='ml-5'>Query?</a>
+                <Link to="/about" >About Us</Link>
+
+                
+
+                <Link to="/terms">Terms and Conditions</Link>
+
+
+                <Link to="/query">Query?</Link>
+
+
             </div>
             <div className='ml-5 flex flex-col justify-evenly border-l border-gray-200 '>
-                <a href='#' className='ml-5'>Terms and Conditions</a>
+                
                 <a href='#' className='ml-5'>Guest Policies</a>
                 <a href='#' className='ml-5'>Privacy Policy</a>
                 <a href='#' className='ml-5'>Trust And Safety</a>
@@ -45,8 +53,6 @@ function Footer() {
         <button><a href='#'>
         <div className='h-10 w-10 rounded bg-[url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Whatsapp_logo_1.png)] bg-cover'></div>
         </a></button>
-  
-
       </div>
     </div>
   )
