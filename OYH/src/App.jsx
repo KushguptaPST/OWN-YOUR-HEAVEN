@@ -7,16 +7,25 @@ import LocationPage from "./components/LocationPage";
 
 const App = () => {
   return (
-    <div>
-      <Navbar/>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Navbar />
+
       <Routes>
-        <Route path="/" element={<Popnav />} />
+        {/* Home page → Show both Popnav + Body */}
+        <Route 
+          path="/" 
+          element={
+            <>
+              <Popnav />
+              <Body />
+            </>
+          } 
+        />
+
+        {/* Location page → ONLY NAVBAR appears, not Body */}
         <Route path="/location/:place" element={<LocationPage />} />
       </Routes>
     </BrowserRouter>
-      <Body/>
-    </div>
   )
 }
 
