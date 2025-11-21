@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react'
 
 const Body = () => {
@@ -22,11 +24,11 @@ const Body = () => {
           </p>
 
           {/* CLICK HERE TO OPEN POPUP */}
-          <p onClick={addguest} className='bg-white flex justify-center items-center w-60 cursor-pointer relative'>
+          <p onClick={addguest}  className='bg-white flex justify-center items-center w-60 cursor-pointer relative'>
             {guest} Guest , {room} Room
           </p>
 
-          <button className='bg-green-400 w-30 text-white text-xl cursor-pointer hover:bg-green-500'>
+          <button onClick={()=>{setShowPop(!showPop)}} className='bg-green-400 w-30 text-white text-xl cursor-pointer hover:bg-green-500'>
             Search
           </button>
 
