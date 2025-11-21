@@ -21,23 +21,23 @@ function Footer() {
                 </a></button>
             </div>
             <div className='ml-5 flex flex-col justify-evenly border-l border-gray-200'>
-                <Link to="/about" >About Us</Link>
+                <Link to="/about" className='ml-5' >About Us</Link>
 
                 
 
-                <Link to="/terms">Terms and Conditions</Link>
-                <Link to="/careers">Careers</Link>
+                <Link to="/terms" className='ml-5'>Terms and Conditions</Link>
+                <Link to="/careers" className='ml-5'>Careers</Link>
 
 
-                <Link to="/query">Query?</Link>
+                <Link to="/query" className='ml-5'>Query?</Link>
 
 
             </div>
             <div className='ml-5 flex flex-col justify-evenly border-l border-gray-200 '>
                 
-                <a href='#' className='ml-5'>Guest Policies</a>
-                <a href='#' className='ml-5'>Privacy Policy</a>
-                <a href='#' className='ml-5'>Trust And Safety</a>
+                <Link to="/guest-policy" className='ml-5'>Guest Policy</Link>
+                <Link to="/privacy-policy" className='ml-5'>Privacy Policy</Link>
+                <Link to="/trust-safety" className='ml-5'>Trust and Safety</Link>
             </div>
         </div>
       </div>
