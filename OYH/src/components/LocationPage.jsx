@@ -3,37 +3,70 @@ import { useParams } from "react-router-dom";
 
 const hotels = {
   Koramangla: [
-    { name: "OYO Royal Inn", price: 1999 ,img:'https://images.unsplash.com/photo-1618773928121-c32242e63f39?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG90ZWwlMjByb29tfGVufDB8fDB8fHww' },
+    { name: "OYH Royal Inn", price: 1999 ,img:'https://images.unsplash.com/photo-1618773928121-c32242e63f39?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG90ZWwlMjByb29tfGVufDB8fDB8fHww' },
     { name: "Urban Nest Rooms", price: 1499 ,img:'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aG90ZWwlMjByb29tfGVufDB8fDB8fHww' },
+    { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
+        { name: "Corporate Rooms", price: 1499 ,img:'https://t3.ftcdn.net/jpg/02/94/19/40/360_F_294194023_disE35GtlVLDQx4caNDaWewZI8LbxWFQ.jpg'},
+     { name: "Premium Gold Stay", price: 2499,img:'https://www.foodnhotelasia.com/wp-content/uploads/2024/02/Lighting-Design.jpg' },
   ],
   WhiteField: [
     { name: "White Orchid Stay", price: 1499,img:'https://thumbs.dreamstime.com/b/hotel-room-beautiful-orange-sofa-included-43642330.jpg' },
     { name: "City View Suites", price: 1699,img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg' },
+        { name: "Budget Rooms MH", price: 1899 ,img:'https://thumbs.dreamstime.com/b/hotel-room-double-bed-33660256.jpg'},
+    { name: "Premium MH Inn", price: 1499 ,img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg'},
+    { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
   ],
+  
   BrookField: [
     { name: "Brook Stay", price: 1899 ,img:'https://media.istockphoto.com/id/174767532/photo/hotel-room.jpg?s=612x612&w=0&k=20&c=2BCNeFcX5PGzCxfZKXewhI_y2C9R7Jw_tzVYCXmRRCE=' },
     { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
+    { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
+        { name: "White Orchid Stay", price: 1499,img:'https://thumbs.dreamstime.com/b/hotel-room-beautiful-orange-sofa-included-43642330.jpg' },
+    { name: "City View Suites", price: 1699,img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg' },
   ],
   GandhiNagar: [
     { name: "Central Stay", price: 1999 ,img:'https://cdn.prod.website-files.com/62b1b17308b0d74291186304/672f4fbfb3638bf1cc97ce0f_672f498462cbddaad472142e_double%2520room%2520hote%2527.png'},
     { name: "Majestic Rooms", price: 1699 ,img:'https://media.cnn.com/api/v1/images/stellar/prod/140127103345-peninsula-shanghai-deluxe-mock-up.jpg?q=w_2226,h_1449,x_0,y_0,c_fill'},
+        { name: "Budget Rooms MH", price: 1899 ,img:'https://thumbs.dreamstime.com/b/hotel-room-double-bed-33660256.jpg'},
+    { name: "Premium MH Inn", price: 1499 ,img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg'},
+    { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
   ],
   "Electronic City": [
     { name: "Tech Park Hotel", price: 1999 ,img:'https://www.jaypeehotels.com/blog/wp-content/uploads/2024/02/Jaypee-Blog-5.jpg'},
     { name: "Corporate Rooms", price: 1499 ,img:'https://t3.ftcdn.net/jpg/02/94/19/40/360_F_294194023_disE35GtlVLDQx4caNDaWewZI8LbxWFQ.jpg'},
+     { name: "Premium Gold Stay", price: 2499,img:'https://www.foodnhotelasia.com/wp-content/uploads/2024/02/Lighting-Design.jpg' },
+         { name: "Premium MH Inn", price: 1499 ,img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg'},
+    { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
   ],
   "Ub City": [
     { name: "Luxury Suites", price: 2199 ,img:'https://img.freepik.com/free-photo/white-comfortable-pillow-blanket-bed-with-light-lamp_74190-12078.jpg?semt=ais_hybrid&w=740&q=80'},
     { name: "Premium Gold Stay", price: 2499,img:'https://www.foodnhotelasia.com/wp-content/uploads/2024/02/Lighting-Design.jpg' },
-  ],
-  IndiraNagar: [
-    { name: "Indira Comfort", price: 1499 ,img:'https://thumbs.dreamstime.com/b/luxury-hotel-bedroom-suite-city-view-teal-decor-modern-design-ai-generated-luxurious-boasts-stunning-accents-furniture-347154535.jpg'},
+     { name: "Indira Comfort", price: 1499 ,img:'https://thumbs.dreamstime.com/b/luxury-hotel-bedroom-suite-city-view-teal-decor-modern-design-ai-generated-luxurious-boasts-stunning-accents-furniture-347154535.jpg'},
     { name: "Nightlife Rooms", price: 1699 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAAXqXbZKT1RZyxPwdXLOulY9y3WIZIn8gXQ&s' },
   ],
-  MarathaHalli: [
+  "IndiraNagar": [
+    { name: "Indira Comfort", price: 1499 ,img:'https://thumbs.dreamstime.com/b/luxury-hotel-bedroom-suite-city-view-teal-decor-modern-design-ai-generated-luxurious-boasts-stunning-accents-furniture-347154535.jpg'},
+    { name: "Nightlife Rooms", price: 1699 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAAXqXbZKT1RZyxPwdXLOulY9y3WIZIn8gXQ&s' },
+     { name: "Central Stay", price: 1999 ,img:'https://cdn.prod.website-files.com/62b1b17308b0d74291186304/672f4fbfb3638bf1cc97ce0f_672f498462cbddaad472142e_double%2520room%2520hote%2527.png'},
+    { name: "Majestic Rooms", price: 1699 ,img:'https://media.cnn.com/api/v1/images/stellar/prod/140127103345-peninsula-shanghai-deluxe-mock-up.jpg?q=w_2226,h_1449,x_0,y_0,c_fill'},
+  ],
+  "MarathaHalli": [
     { name: "Budget Rooms MH", price: 1899 ,img:'https://thumbs.dreamstime.com/b/hotel-room-double-bed-33660256.jpg'},
     { name: "Premium MH Inn", price: 1499 ,img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg'},
+    { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
+        { name: "Budget Rooms", price: 1799 ,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
+        { name: "Corporate Rooms", price: 1499 ,img:'https://t3.ftcdn.net/jpg/02/94/19/40/360_F_294194023_disE35GtlVLDQx4caNDaWewZI8LbxWFQ.jpg'},
+     { name: "Premium Gold Stay", price: 2499,img:'https://www.foodnhotelasia.com/wp-content/uploads/2024/02/Lighting-Design.jpg' },
   ],
+  "More Places":[
+        { name: "Chikkaballura", price: "1299-2599" ,img:'https://media.istockphoto.com/id/174767532/photo/hotel-room.jpg?s=612x612&w=0&k=20&c=2BCNeFcX5PGzCxfZKXewhI_y2C9R7Jw_tzVYCXmRRCE=' },
+    { name: "ChitraDurga", price: "1499-2499",img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThMKzonrXOUCtFwrLG-SO3NzYrQS1Sz-Ak8w&s'},
+        { name: "DevaNagaree", price: "1199-2399" ,img:'https://t3.ftcdn.net/jpg/02/94/19/40/360_F_294194023_disE35GtlVLDQx4caNDaWewZI8LbxWFQ.jpg'},
+     { name: "VijayaNagra", price: "1299-2399",img:'https://www.foodnhotelasia.com/wp-content/uploads/2024/02/Lighting-Design.jpg' },
+        { name: "Kempegowda", price: "1199-2399",img:'https://thumbs.dreamstime.com/b/hotel-room-beautiful-orange-sofa-included-43642330.jpg' },
+    { name: "Silk Institute", price: "1399-2799",img:'https://thumbs.dreamstime.com/b/hotel-rooms-8146308.jpg' },
+  ]
+  
 };
 
 const LocationPage = () => {

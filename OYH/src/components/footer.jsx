@@ -26,6 +26,7 @@ function Footer() {
                 
 
                 <Link to="/terms">Terms and Conditions</Link>
+                <Link to="/careers">Careers</Link>
 
 
                 <Link to="/query">Query?</Link>
@@ -40,7 +41,7 @@ function Footer() {
             </div>
         </div>
       </div>
-      <div className='h-20 w-full flex justify-evenly items-center font-serif border-b border-gray-200 bg-gray-400 border-t border-gray-200'>
+      <div className='h-20 w-full flex justify-evenly items-center font-serif border-b  bg-gray-400 border-t border-gray-200'>
         <button><a href='#'>
         <div className='h-10 w-10 rounded bg-[url(https://wallpapers.com/images/featured/instagram-logo-vector-png-ir8f58dvmxlfkgac.jpg)] bg-cover'></div>
         </a></button>

@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react'
 
 const Body = () => {
@@ -8,9 +6,29 @@ const Body = () => {
   const [guest, setGuest] = useState(1)
   const [room, setRoom] = useState(1)
 
-  function addguest() {
-    setShowPop(!showPop)
-  }
+  const [showDatePop, setShowDatePop] = useState(false)
+
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  const [checkout, setCheckout] = useState(tomorrow);
+
+  const formatDate = (date) =>
+    date.toLocaleDateString("en-US", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+    });
+
+  const finalDate = `${formatDate(today)} - ${formatDate(checkout)}`;
+
+  // next 10 days to choose checkout
+  const nextDays = Array.from({ length: 10 }, (_, i) => {
+    const d = new Date();
+    d.setDate(today.getDate() + i + 1);
+    return d;
+  });
 
   return (
     <div>
@@ -19,20 +37,47 @@ const Body = () => {
         <div className='flex relative'>
           <input className='bg-white p-4 w-90 border-r' type="text" placeholder='Search by city,PGs,or Neighborhood' />
           
-          <p className='bg-white flex justify-center items-center w-60 border-r cursor-pointer'>
-            Tue,18 Nov - Wed,19 Nov
+          {/*  Date box showing Today - Checkout */}
+          <p
+            onClick={() => setShowDatePop(!showDatePop)}
+            className='bg-white flex justify-center items-center w-60 border-r cursor-pointer'
+          >
+            {finalDate}
           </p>
 
-          {/* CLICK HERE TO OPEN POPUP */}
-          <p onClick={addguest}  className='bg-white flex justify-center items-center w-60 cursor-pointer relative'>
+          {/*  Popup to choose only the second date */}
+          {showDatePop && (
+            <div className='absolute top-16 left-92 bg-white shadow-lg p-2 rounded-lg w-60'>
+              <p className='font-semibold text-center mb-2'>Select Checkout Date</p>
+              <div className='flex flex-col gap-2'>
+                {nextDays.map((d, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setCheckout(d);
+                      setShowDatePop(false);
+                    }}
+                    className={`p-2 border rounded hover:bg-blue-100 ${
+                      formatDate(d) === formatDate(checkout) ? "bg-blue-200" : ""
+                    }`}
+                  >
+                    {formatDate(d)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Guest + Room Button */}
+          <p onClick={() => setShowPop(!showPop)} className='bg-white flex justify-center items-center w-60 cursor-pointer relative'>
             {guest} Guest , {room} Room
           </p>
 
-          <button onClick={()=>{setShowPop(!showPop)}} className='bg-green-400 w-30 text-white text-xl cursor-pointer hover:bg-green-500'>
+          <button onClick={() => { setShowPop(false)}} className='bg-green-400 w-30 text-white text-xl cursor-pointer hover:bg-green-500'>
             Search
           </button>
 
-          {/* POPUP CARD */}
+          {/* Guest + Room Popup */}
           {showPop && (
             <div className='absolute top-16 right-28 bg-white shadow-lg p-4 rounded-lg w-40'>
               
@@ -40,19 +85,9 @@ const Body = () => {
               <div className='flex justify-between mb-3'>
                 <span>Guest</span>
                 <div className='flex gap-2 items-center'>
-                  <button
-                    onClick={() => guest > 1 && setGuest(guest - 1)}
-                    className='border px-2'
-                  >
-                    -
-                  </button>
+                  <button onClick={() => guest > 1 && setGuest(guest - 1)} className='border px-2'>-</button>
                   <span>{guest}</span>
-                  <button
-                    onClick={() => guest < 3 && setGuest(guest + 1)}
-                    className='border px-2'
-                  >
-                    +
-                  </button>
+                  <button onClick={() => guest < 3 && setGuest(guest + 1)} className='border px-2'>+</button>
                 </div>
               </div>
 
@@ -60,19 +95,9 @@ const Body = () => {
               <div className='flex justify-between'>
                 <span>Room</span>
                 <div className='flex gap-2 items-center'>
-                  <button
-                    onClick={() => room > 1 && setRoom(room - 1)}
-                    className='border px-2'
-                  >
-                    -
-                  </button>
+                  <button onClick={() => room > 1 && setRoom(room - 1)} className='border px-2'>-</button>
                   <span>{room}</span>
-                  <button
-                    onClick={() => room < 3 && setRoom(room + 1)}
-                    className='border px-2'
-                  >
-                    +
-                  </button>
+                  <button onClick={() => room < 5 && setRoom(room + 1)} className='border px-2'>+</button>
                 </div>
               </div>
 
