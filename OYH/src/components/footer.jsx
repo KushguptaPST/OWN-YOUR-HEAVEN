@@ -26,6 +26,7 @@ function Footer() {
                 
 
                 <Link to="/terms">Terms and Conditions</Link>
+                <Link to="/careers">Careers</Link>
 
 
                 <Link to="/query">Query?</Link>

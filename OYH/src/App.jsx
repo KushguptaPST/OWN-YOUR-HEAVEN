@@ -6,8 +6,6 @@ import Body from "./components/body";
 import Footer from "./components/footer";
 
 import AboutUs from "./pages/AboutUs";
-
-
 import Terms from "./pages/Terms";
 import Careers from "./pages/Careers";
 import Query from "./pages/Query";
