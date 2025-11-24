@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 const hotels = {
   Koramangla: [
@@ -40,6 +40,7 @@ const LocationPage = () => {
   const { place } = useParams();
   
   const data = hotels[place] || [];
+  const navigate = useNavigate(); 
 
   return (
     <div className="p-6">
@@ -51,6 +52,12 @@ const LocationPage = () => {
             <img src={h.img} alt="" className="h-50" />
             <h2 className="text-xl font-bold">{h.name}</h2>
             <p className="text-red-600 font-semibold">₹ {h.price}</p>
+            <button
+              className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg"
+              onClick={() => navigate('/booking', { state: { hotel: h } })}
+            >
+              Book Now
+            </button>
           </div>
         ))}
       </div>
