@@ -1,8 +1,8 @@
 
-
 import { useNavigate } from "react-router-dom";
 
 const Popnav = () => {
+  
   const navigate = useNavigate();
 
   const locations = [
@@ -23,7 +23,7 @@ const Popnav = () => {
         {locations.map((loc) => (
           <div
             key={loc}
-            className="h-9 w-30 cursor-pointer flex items-center hover:text-red-600"
+            className="h-9 w-30 cursor-pointer flex items-center hover:text-red-500"
             onClick={() => navigate(`/location/${loc}`)}>
             {loc}
           </div>

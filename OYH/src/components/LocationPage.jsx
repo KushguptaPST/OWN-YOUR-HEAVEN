@@ -70,9 +70,11 @@ const hotels = {
 };
 
 const LocationPage = () => {
+
+
   const { place } = useParams();
 
-  const data = hotels[place] || [];
+  const data = hotels[place] || [];  //here data is taking array and here place is key checking its value in hotels dictionry , || means or [] empty array assign kro data ko agr dictionary me nhi h to
 
   return (
     <div className="p-6">
