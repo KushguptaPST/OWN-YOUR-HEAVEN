@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
-const Body = () => {
+const Body = ({ search, setSearch, suggestions }) => {
+
+  const navigate = useNavigate();
 
   const [showPop, setShowPop] = useState(false)
   const [guest, setGuest] = useState(1)
@@ -30,17 +33,40 @@ const Body = () => {
     return d;
   });
 
-  function Search(e){
-    console.log(e.target.value)
+  function Search(e) {
+    setSearch(e.target.value);
   }
 
   return (
     <div>
       <div className='flex justify-center items-center h-70 bg-[url(https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-52393.jpg?semt=ais_hybrid&w=740&q=80)]'>
-        
         <div className='flex relative'>
-          <input onInput={Search} className='bg-white p-4 w-90 border-r' type="text" placeholder='Search by city,PGs,or Neighborhood' />
-          
+          <input 
+            onInput={Search}
+            value={search}
+            className='bg-white p-4 w-90 border-r'
+            type="text"
+            placeholder='Search by city,PGs,or Neighborhood' 
+          />
+
+          {/* Search Suggestions Dropdown */}
+          {suggestions && suggestions.length > 0 && search !== "" && (
+            <div className="absolute bg-white border rounded-md shadow-md w-90 top-16 z-50">
+              {suggestions.slice(0, 5).map((loc) => (
+                <div
+                  key={loc}
+                  className="p-2 cursor-pointer hover:bg-gray-200"
+                  onClick={() => {
+                    navigate(`/location/${loc}`);
+                    setSearch("");
+                  }}
+                >
+                  {loc}
+                </div>
+              ))}
+            </div>
+          )}
+
           {/*  Date box showing Today - Checkout */}
           <p
             onClick={() => setShowDatePop(!showDatePop)}
@@ -84,7 +110,7 @@ const Body = () => {
           {/* Guest + Room Popup */}
           {showPop && (
             <div className='absolute top-16 right-28 bg-white shadow-lg p-4 rounded-lg w-40'>
-              
+
               {/* Guest */}
               <div className='flex justify-between mb-3'>
                 <span>Guest</span>
@@ -111,8 +137,9 @@ const Body = () => {
         </div>
       </div>
 
+      {/* body part - untouched below */}
+      {/* ... your existing UI remains unchanged ... */}
 
-      {/* body part */}
       <div className='bg-white h-250 flex items-center justify-evenly flex-col'>
         <img className='h-70 w-310' src="https://assets.oyoroomscdn.com/cmsMedia/1606e8a0-685f-4c31-8319-4b592f1ca086.jpg" alt="" />
         <img className='h-70 w-310' src="https://assets.oyoroomscdn.com/cmsMedia/33e8565d-f803-49ab-9269-a4bc97cd835d.jpg" alt="" />

@@ -1,10 +1,9 @@
-import React from 'react'
-import Navbar from './components/navbar'
-import Body from './components/body'
+import React, { useState } from 'react';
+import Navbar from './components/navbar';
+import Body from './components/body';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Popnav from "./components/popnav";
 import LocationPage from "./components/LocationPage";
-
 import Footer from "./components/footer";
 
 import AboutUs from "./pages/AboutUs";
@@ -17,23 +16,47 @@ import TrustSafety from "./pages/TrustSafety";
 import ListProperty from "./pages/ListProperty";
 import BookingPage from './pages/BookingPage';
 
-
-
-
-
 const App = () => {
+
+  const [search, setSearch] = useState("");
+
+  const locations = [
+    "Koramangla",
+    "WhiteField",
+    "BrookField",
+    "GandhiNagar",
+    "Electronic City",
+    "Ub City",
+    "IndiraNagar",
+    "MarathaHalli",
+    "More Places"
+  ];
+
+  const filteredLocations = locations
+    .filter(loc => loc.toLowerCase().includes(search.toLowerCase()))
+    .slice(0, 5); // Only show max 5
+
   return (
     <BrowserRouter>
       <Navbar />
 
       <Routes>
-        {/* Home page  */}
-        <Route   path="/"  element={<> <Popnav /> <Body /> </> } />
+        <Route 
+          path="/" 
+          element={
+            <>
+              <Popnav />
+              <Body 
+                search={search} 
+                setSearch={setSearch}
+                suggestions={filteredLocations}
+              />
+            </>
+          } 
+        />
 
-        {/* Location page  */}
         <Route path="/location/:place" element={<LocationPage />} />
-
-        <Route path="/" element={<Body />} />
+        
         <Route path="/about" element={<AboutUs />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/careers" element={<Careers />} />
@@ -43,30 +66,11 @@ const App = () => {
         <Route path="/trust-safety" element={<TrustSafety />} />
         <Route path="/list-property" element={<ListProperty />} />
         <Route path="/booking" element={<BookingPage />} />
-
-
-      
-
-
-
-
-
       </Routes>
 
       <Footer />
     </BrowserRouter>
-
-
-          
-
-  )
+  );
 }
 
-export default App
-
-      
-
-      
-
-
-
+export default App;

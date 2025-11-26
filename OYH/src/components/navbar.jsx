@@ -9,12 +9,12 @@ const Navbar = () => {
         OYH
       </div>
       <Link to="/list-property">
-      <button><a href='#'>
+      <button>
       <div className='text-xl h-20 w-65 flex justify-center items-center flex-col border-gray-50 border-2'>
         List Your Property
         <p className='text-xs'>Start earning in 30 min</p>
       </div>
-      </a></button></Link>
+      </button></Link>
       <button><a href='tel:6204646300'>
       <div className='h-20 w-65 text-xl flex justify-center items-center border-gray-100 border-2'>
         <div className='h-8 w-8 rounded-4xl mr-5 bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE0GZ2dKfnpLXotVEV8UvNGKTxfFSfcb280A&s)] bg-cover '></div>
