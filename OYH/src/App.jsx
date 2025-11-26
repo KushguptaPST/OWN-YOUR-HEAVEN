@@ -14,6 +14,10 @@ import Query from "./pages/Query";
 import GuestPolicy from "./pages/GuestPolicy"; 
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TrustSafety from "./pages/TrustSafety";
+import ListProperty from "./pages/ListProperty";
+import BookingPage from './pages/BookingPage';
+
+
 
 
 
@@ -37,6 +41,11 @@ const App = () => {
         <Route path="/guest-policy" element={<GuestPolicy />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/trust-safety" element={<TrustSafety />} />
+        <Route path="/list-property" element={<ListProperty />} />
+        <Route path="/booking" element={<BookingPage />} />
+
+
+      
 
 
 

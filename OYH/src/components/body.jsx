@@ -30,12 +30,16 @@ const Body = () => {
     return d;
   });
 
+  function Search(e){
+    console.log(e.target.value)
+  }
+
   return (
     <div>
       <div className='flex justify-center items-center h-70 bg-[url(https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-52393.jpg?semt=ais_hybrid&w=740&q=80)]'>
         
         <div className='flex relative'>
-          <input className='bg-white p-4 w-90 border-r' type="text" placeholder='Search by city,PGs,or Neighborhood' />
+          <input onInput={Search} className='bg-white p-4 w-90 border-r' type="text" placeholder='Search by city,PGs,or Neighborhood' />
           
           {/*  Date box showing Today - Checkout */}
           <p
