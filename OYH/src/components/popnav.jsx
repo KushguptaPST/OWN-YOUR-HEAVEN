@@ -24,8 +24,7 @@ const Popnav = () => {
           <div
             key={loc}
             className="h-9 w-30 cursor-pointer flex items-center hover:text-red-600"
-            onClick={() => navigate(`/location/${loc}`)}
-          >
+            onClick={() => navigate(`/location/${loc}`)}>
             {loc}
           </div>
         ))}

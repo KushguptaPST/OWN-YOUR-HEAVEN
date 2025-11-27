@@ -8,10 +8,23 @@ export default function ListProperty() {
     propertyType: "",
     city: "",
     message: "",
+    facilities: "",
+    photos: [],
   });
+
+  const handlePhotoUpload = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData({ ...formData, photos: files });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (formData.photos.length < 5) {
+      alert("Please upload at least 5 property photos!");
+      return;
+    }
+
     console.log("Owner Request Submitted:", formData);
     alert("Your request has been submitted. Our team will contact you soon!");
   };
@@ -85,6 +98,50 @@ export default function ListProperty() {
             }
           ></textarea>
 
+          {/* ⭐ FACILITIES SECTION */}
+          <textarea
+            placeholder="Facilities (WiFi, AC, Parking, CCTV, etc.)"
+            className="w-full p-3 border rounded-lg"
+            rows="4"
+            onChange={(e) =>
+              setFormData({ ...formData, facilities: e.target.value })
+            }
+          ></textarea>
+
+          {/* ⭐ PHOTO UPLOAD SECTION */}
+          <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center">
+            <label className="font-semibold text-lg block mb-3">
+              Upload Property Photos (Minimum 5)
+            </label>
+
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="w-full p-3 border rounded-lg bg-gray-50 cursor-pointer"
+              onChange={handlePhotoUpload}
+            />
+
+            {/* Count of selected photos */}
+            <p className="mt-2 text-gray-600">
+              Selected: {formData.photos.length} / 5 required
+            </p>
+          </div>
+
+          {/* ⭐ IMAGE PREVIEW */}
+          {formData.photos.length > 0 && (
+            <div className="grid grid-cols-3 gap-3 mt-4">
+              {formData.photos.map((file, index) => (
+                <img
+                  key={index}
+                  src={URL.createObjectURL(file)}
+                  alt="preview"
+                  className="h-24 w-full object-cover rounded-lg shadow"
+                />
+              ))}
+            </div>
+          )}
+
           <button className="bg-blue-600 text-white w-full p-3 rounded-lg font-semibold">
             Submit
           </button>
@@ -105,7 +162,7 @@ export default function ListProperty() {
         </p>
       </div>
 
-      {/* Signup / Listing Process */}
+      {/* Signup Process */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Sign-Up & Listing Process</h2>
         <ul className="space-y-2 text-gray-700">
@@ -117,13 +174,12 @@ export default function ListProperty() {
         </ul>
       </div>
 
-      {/* Payment Frequency */}
+      {/* Payment Info */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Payment Frequency</h2>
         <p className="text-gray-600">
-          Payments are settled **monthly** and transferred directly to your
-          registered bank account. You can track everything inside your OYH
-          dashboard.
+          Payments are settled monthly and transferred directly to your
+          registered bank account.
         </p>
       </div>
     </div>
