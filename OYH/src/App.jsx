@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { AuthProvider } from './auth/AuthContext';
+import AuthProvider from "./AuthProvider.jsx";
 
 import Navbar from './components/navbar';
 import Popnav from "./components/popnav";

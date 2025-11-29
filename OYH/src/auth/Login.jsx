@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api"; // use the axios instance with JWT interceptors
 import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
@@ -18,18 +18,17 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/v1/token/",
-        { username, password }
-      );
+      // Use your axios instance
+      const response = await api.post("v1/userlogin/", { username, password });
 
-      localStorage.setItem("access", response.data.access);
-      localStorage.setItem("refresh", response.data.refresh);
+      // Save tokens in localStorage
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
 
       setIsLoggedIn(true);
       navigate("/");
     } catch (err) {
-      console.log("Login error:", err.response?.data || err);
+      console.error("Login error:", err.response?.data || err);
       setError(err.response?.data?.detail || "Invalid credentials");
     } finally {
       setLoading(false);
@@ -44,7 +43,7 @@ const Login = () => {
       >
         <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">
           Login
-        </h2>
+        </h2> 
 
         <label>Username</label>
         <input
