@@ -75,13 +75,25 @@ DATABASES = {
 # >>> MongoDB Atlas Connection Using MongoEngine
 
 
+from pathlib import Path
+from datetime import timedelta
+import os
+from dotenv import load_dotenv
 from mongoengine import connect
-connect(
-    db="oyhdb",
-    port=27017,
-    host="mongodb+srv://owh_admin:OYH%404834@cluster0.wxhylqi.mongodb.net/oyhdb?retryWrites=true&w=majority",
-    tls=True
-)
+
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(env_path)
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
+DEBUG = os.getenv("DEBUG", "True") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
+
+# MongoDB
+MONGO_URI = os.getenv("MONGO_URI")
+connect(host=MONGO_URI)
+
 
 # Password validation (still needed for Django admin auth)
 AUTH_PASSWORD_VALIDATORS = [
@@ -115,6 +127,10 @@ SIMPLE_JWT = {
 }
 
 
+# Load .env file
+load_dotenv()
 
-
-
+env_path = Path(__file__).resolve().parent.parent / ".env"
+load_dotenv(env_path)
+MONGO_URI = os.getenv("MONGO_URI")
+print(MONGO_URI)
