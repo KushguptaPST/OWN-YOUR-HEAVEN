@@ -70,6 +70,8 @@ const hotels = {
 };
 
 const LocationPage = () => {
+
+
   const { place } = useParams();
   
   const data = hotels[place] || [];
