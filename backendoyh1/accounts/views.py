@@ -1,23 +1,18 @@
-from django.shortcuts import render
-
-# Create your views here.
-from .serializer import UserSerializer
-from rest_framework import generics
-from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny
+from rest_framework import generics, permissions
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from .serializer import UserSerializer
+from .models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 
+# Registration API
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [AllowAny]
-    
+    permission_classes = [permissions.AllowAny]
+
+# Protected API example
 class ProtectedView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request):
-        response = {
-            'status':'Response was permitted'
-        }
-        return Response(response)
+        return Response({'status': 'You have access!'})

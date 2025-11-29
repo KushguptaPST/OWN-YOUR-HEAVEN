@@ -1,6 +1,11 @@
 from django.urls import path
 from accounts import views as UserViews
 from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView
+from .views import TaskList
+
+urlpatterns = [
+    path('tasks/', TaskList.as_view()),
+]
 
 
 urlpatterns = [
