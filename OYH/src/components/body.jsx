@@ -57,7 +57,7 @@ const Body = ({ search = "", setSearch = () => {}, suggestions = [], tasks = [] 
           {/* Search Suggestions Dropdown */}
           {suggestions && suggestions.length > 0 && search !== "" && (
             <div className="absolute bg-white border rounded-md shadow-md w-90 top-16 z-50">
-              {suggestions.slice(0, 5).map((loc) => (
+              {suggestions.map((loc) => (
                 <div
                   key={loc}
                   className="p-2 cursor-pointer hover:bg-gray-200"

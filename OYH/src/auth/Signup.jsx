@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -7,19 +8,32 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !password) {
-      alert("Please fill all fields");
-      return;
+    const userData = {
+      username: name,      
+      email: email,
+      password: password,
     }
+    try{
+      const response = await axios.post('http://127.0.0.1:8000/api/v1/signup/', userData)
+      console.log('response.data==>',response.data)
+      console.log('Registration successful');
+      setErrors({})
+      setSuccess(true)
+      setTimeout(() => {
+  navigate("/");
+}, 1500); 
 
-    alert("Signup Successful!");
-    navigate("/login");
-  };
-
+    }catch(error){
+        setErrors(error.response?.data || { non_field_errors: [error.message] });
+      console.log("Registration error:",  error.response?.data || error.message)
+    }
+  }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
@@ -36,6 +50,10 @@ const Signup = () => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter your name"
         />
+        <small>
+  {errors.username && <div className="text-red-900">{errors.username[0]}</div>}
+</small>
+
 
         <label>Email</label>
         <input
@@ -45,6 +63,10 @@ const Signup = () => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
         />
+        <small>
+  {errors.email && <div className="text-red-900">{errors.email[0]}</div>}
+</small>
+
 
         <label>Password</label>
         <input
@@ -54,6 +76,12 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Create password"
         />
+        <small>{errors.password && <div className="text-red-900">{errors.password[0]}</div>}</small>
+       {success && (
+  <div className="bg-green-100 border border-green-500 text-green-700 px-4 py-3 mb-5 rounded font-semibold">
+    Registration Successful
+  </div>
+)}
 
         <button className="w-full bg-gray-900 text-white p-2 rounded-lg text-lg cursor-pointer hover:bg-green-600">
           Signup
@@ -61,7 +89,7 @@ const Signup = () => {
 
         <p className="text-center mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 font-semibold">
+          <Link to="#" className="text-blue-600 font-semibold">
             Login
           </Link>
         </p>

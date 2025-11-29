@@ -1,33 +1,142 @@
-import React from 'react'
-import { Link } from "react-router-dom";
-
+// src/components/Navbar.jsx
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../AuthProvider";
 
 const Navbar = () => {
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState("Guest"); // default
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  // Update username whenever login state changes
+  useEffect(() => {
+    const storedUser = localStorage.getItem("username");
+    if (storedUser) setUsername(storedUser);
+    else setUsername("Guest");
+  }, [isLoggedIn]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    setUsername("Guest");
+    setOpen(false);
+    navigate("/");
+  };
+
+  // Close dropdown when clicking outside or pressing ESC
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    const onEsc = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("click", onDocClick);
+    document.addEventListener("keydown", onEsc);
+
+    return () => {
+      document.removeEventListener("click", onDocClick);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, []);
+
   return (
-    <div className='flex flex-wrap justify-between border-b'>
-      <div className='h-20 w-65 ml-10 flex justify-center items-center text-5xl font-serif font-bold'>
-        OYH
+    <div className="flex flex-wrap justify-between items-center border-b px-4">
+      {/* Logo */}
+      <div className="h-20 flex items-center text-4xl font-serif font-bold">
+        <Link to="/" className="select-none">OYH</Link>
       </div>
-      <Link to="/list-property">
-      <button>
-      <div className='text-xl h-20 w-65 flex justify-center items-center flex-col border-gray-50 border-2'>
-        List Your Property
-        <p className='text-xs'>Start earning in 30 min</p>
+
+      {/* Middle actions */}
+      <div className="flex items-center gap-3">
+        <Link to="/list-property" className="text-sm">
+          <div className="text-md h-14 px-4 flex flex-col justify-center items-center border rounded">
+            List Your Property
+            <p className="text-xs">Start earning in 30 min</p>
+          </div>
+        </Link>
+
+        <a href="tel:6204646300" className="no-underline">
+          <div className="h-14 px-4 flex items-center border rounded">
+            <div
+              className="h-8 w-8 rounded-full mr-3 bg-cover bg-center"
+              style={{ backgroundImage: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE0GZ2dKfnpLXotVEV8UvNGKTxfFSfcb280A&s')" }}
+            />
+            Call us to Book now
+          </div>
+        </a>
       </div>
-      </button></Link>
-      <button><a href='tel:6204646300'>
-      <div className='h-20 w-65 text-xl flex justify-center items-center border-gray-100 border-2'>
-        <div className='h-8 w-8 rounded-4xl mr-5 bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE0GZ2dKfnpLXotVEV8UvNGKTxfFSfcb280A&s)] bg-cover '></div>
-       Call us to Book now
-      </div>
-      </a></button>
-      <div className='text-xl h-20 w-65 flex justify-center items-center border-gray-100 border-2'>
-        <div className='h-8 w-8 rounded-4xl mr-5 bg-[url(https://i.pinimg.com/736x/97/21/05/972105c5a775f38cf33d3924aea053f1.jpg)] bg-cover '></div>
-        <Link to="/login"><button><a href='#'>Login</a></button>/</Link>
-        <Link to="/signup"><button><a href='#'>Signup</a></button></Link>
+
+      {/* User section */}
+      <div className="relative" ref={dropdownRef}>
+        <div className="h-14 flex items-center gap-3 border rounded px-3 ml-4">
+          <div
+            className="h-10 w-10 rounded-full bg-cover bg-center"
+            style={{ backgroundImage: "url('https://i.pinimg.com/736x/97/21/05/972105c5a775f38cf33d3924aea053f1.jpg')" }}
+          />
+
+          {isLoggedIn ? (
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="text-left font-semibold focus:outline-none"
+              aria-haspopup="true"
+              aria-expanded={open}
+            >
+              <div className="flex items-center gap-2">
+                <span className="hidden sm:inline">Welcome,</span>
+                <span>{username}</span>
+                <svg className="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </button>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <button className="px-3 py-1 rounded border">Login</button>
+              </Link>
+              <Link to="/signup">
+                <button className="px-3 py-1 rounded border">Signup</button>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {open && isLoggedIn && (
+          <div
+            className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="user-menu-button"
+          >
+            <Link to="/my-bookings" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
+              My Bookings
+            </Link>
+            <Link to="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
+              My Profile
+            </Link>
+            <Link to="/help" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
+              Help
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+              role="menuitem"
+            >
+              Logout
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

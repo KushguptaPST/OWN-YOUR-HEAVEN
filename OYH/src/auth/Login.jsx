@@ -1,23 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(AuthContext);
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    // Later connect with backend API
-    if (email === "" || password === "") {
-      alert("Please fill all fields");
-      return;
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/v1/token/",
+        { username, password }
+      );
+
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+
+      setIsLoggedIn(true);
+      navigate("/");
+    } catch (err) {
+      console.log("Login error:", err.response?.data || err);
+      setError(err.response?.data?.detail || "Invalid credentials");
+    } finally {
+      setLoading(false);
     }
-
-    alert("Login Successful!");
-    navigate("/");
   };
 
   return (
@@ -26,15 +42,17 @@ const Login = () => {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-2xl shadow-lg w-96"
       >
-        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">Login</h2>
+        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">
+          Login
+        </h2>
 
-        <label>Email</label>
+        <label>Username</label>
         <input
-          type="email"
+          type="text"
           className="w-full p-2 border rounded mb-3"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter your username"
         />
 
         <label>Password</label>
@@ -46,8 +64,13 @@ const Login = () => {
           placeholder="Enter password"
         />
 
-        <button className="w-full bg-gray-900 text-white p-2 rounded-lg text-lg cursor-pointer hover:bg-green-600">
-          Login
+        {error && <div className="text-red-900 mb-2">{error}</div>}
+
+        <button
+          className="w-full bg-gray-900 text-white p-2 rounded-lg text-lg hover:bg-green-600 disabled:opacity-50"
+          disabled={loading}
+        >
+          {loading ? "Logging In..." : "Login"}
         </button>
 
         <p className="text-center mt-4">

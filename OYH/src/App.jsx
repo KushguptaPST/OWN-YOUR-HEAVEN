@@ -1,14 +1,13 @@
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
 import React, { useState } from 'react';
 import Navbar from './components/navbar';
 import Body from './components/body';
-=======
+=========
 import React, { useEffect, useState } from 'react';
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from './components/navbar';
-import Body from './components/body';
 import Popnav from "./components/popnav";
 import LocationPage from "./components/LocationPage";
 import Footer from "./components/footer";
@@ -25,9 +24,9 @@ import BookingPage from './pages/BookingPage';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
 
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
 const App = () => {
-
+  const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
 
   const locations = [
@@ -45,7 +44,7 @@ const App = () => {
   const filteredLocations = locations
     .filter(loc => loc.toLowerCase().includes(search.toLowerCase()))
     .slice(0, 5); // Only show max 5
-=======
+=========
 import axios from 'axios';
 
 const App = () => {
@@ -57,45 +56,46 @@ const App = () => {
       .then(res => setTasks(res.data))
       .catch(err => console.log(err));
   }, []);
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
 
   return (
-    <BrowserRouter>
-      <Navbar />
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
 
       <Routes>
-<<<<<<< HEAD
-=======
+<<<<<<<<< Temporary merge branch 1
+=========
         {/* Home page */}
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
         <Route 
           path="/" 
           element={
             <>
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
               <Popnav />
               <Body 
                 search={search} 
                 setSearch={setSearch}
                 suggestions={filteredLocations}
               />
-=======
+=========
               <Popnav /> 
               <Body tasks={tasks} /> {/* pass tasks to Body component if needed */}
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
             </>
           } 
         />
 
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
         <Route path="/location/:place" element={<LocationPage />} />
         
-=======
+=========
         {/* Location page */}
         <Route path="/location/:place" element={<LocationPage />} />
 
         {/* Other pages */}
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
         <Route path="/about" element={<AboutUs />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/careers" element={<Careers />} />
@@ -105,21 +105,22 @@ const App = () => {
         <Route path="/trust-safety" element={<TrustSafety />} />
         <Route path="/list-property" element={<ListProperty />} />
         <Route path="/booking" element={<BookingPage />} />
-<<<<<<< HEAD
-=======
+<<<<<<<<< Temporary merge branch 1
+=========
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
       </Routes>
 
-      <Footer />
-    </BrowserRouter>
+        <Footer />
+      </BrowserRouter>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
-<<<<<<< HEAD
-=======
+<<<<<<<<< Temporary merge branch 1
+=========
 
 
 
@@ -129,4 +130,4 @@ export default App;
 
 
 
->>>>>>> part-1
+>>>>>>>>> Temporary merge branch 2
