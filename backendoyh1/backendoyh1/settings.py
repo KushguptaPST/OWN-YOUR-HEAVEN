@@ -67,9 +67,14 @@ WSGI_APPLICATION = 'backendoyh1.wsgi.application'
 DATABASES = {}
 
 # >>> MongoDB Atlas Connection Using MongoEngine
+
+import os
+from mongoengine import connect
+MONGO_URI = os.getenv("MONGO_URI")
+
 connect(
     db="oyhdb",
-    host="mongodb+srv://owh_admin:OYH%404834@cluster0.wxhylqi.mongodb.net/oyhdb?retryWrites=true&w=majority",
+    host=MONGO_URI,
     tls=True
 )
 
