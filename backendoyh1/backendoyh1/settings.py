@@ -65,16 +65,21 @@ WSGI_APPLICATION = 'backendoyh1.wsgi.application'
 
 # >>> Disable SQL Database
 DATABASES = {}
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 # >>> MongoDB Atlas Connection Using MongoEngine
 
-import os
-from mongoengine import connect
-MONGO_URI = os.getenv("MONGO_URI")
 
+from mongoengine import connect
 connect(
     db="oyhdb",
-    host=MONGO_URI,
+    port=27017,
+    host="mongodb+srv://owh_admin:OYH%404834@cluster0.wxhylqi.mongodb.net/oyhdb?retryWrites=true&w=majority",
     tls=True
 )
 
