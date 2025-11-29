@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { useNavigate } from "react-router-dom";
 
-const Body = ({ tasks }) => {
+const Body = ({ search = "", setSearch = () => {}, suggestions = [], tasks = [] }) => {
+  const navigate = useNavigate();
+
   const [showPop, setShowPop] = useState(false);
   const [guest, setGuest] = useState(1);
   const [room, setRoom] = useState(1);
   const [showDatePop, setShowDatePop] = useState(false);
 
-  // ================= DATE RANGE =================
+  // ================================= DATE RANGE =================================
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
@@ -33,17 +36,43 @@ const Body = ({ tasks }) => {
     range[0].endDate
   )}`;
 
+  function Search(e) {
+    setSearch(e.target.value);
+  }
+
   return (
     <div>
       {/* ================= SEARCH BAR HEADER ================= */}
       <div className="flex justify-center items-center h-70 bg-[url(https://img.freepik.com/free-photo/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner_1258-52393.jpg?semt=ais_hybrid&w=740&q=80)]">
         <div className="flex relative">
+          {/* Search Input */}
           <input
+            onInput={Search}
+            value={search}
             className="bg-white p-4 w-90 border-r"
             type="text"
             placeholder="Search by city, PGs, or Neighborhood"
           />
 
+          {/* Search Suggestions Dropdown */}
+          {suggestions && suggestions.length > 0 && search !== "" && (
+            <div className="absolute bg-white border rounded-md shadow-md w-90 top-16 z-50">
+              {suggestions.map((loc) => (
+                <div
+                  key={loc}
+                  className="p-2 cursor-pointer hover:bg-gray-200"
+                  onClick={() => {
+                    navigate(`/location/${loc}`);
+                    setSearch("");
+                  }}
+                >
+                  {loc}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Date Picker Box */}
           <p
             onClick={() => setShowDatePop(!showDatePop)}
             className="bg-white flex justify-center items-center w-60 border-r cursor-pointer"
@@ -51,6 +80,7 @@ const Body = ({ tasks }) => {
             {finalDate}
           </p>
 
+          {/* Date Picker Popup */}
           {showDatePop && (
             <div className="absolute top-16 left-80 bg-white shadow-xl p-2 rounded-lg z-50">
               <DateRange
@@ -70,6 +100,7 @@ const Body = ({ tasks }) => {
             </div>
           )}
 
+          {/* Guest Room Popup Button */}
           <p
             onClick={() => setShowPop(!showPop)}
             className="bg-white flex justify-center items-center w-60 cursor-pointer relative"
@@ -77,16 +108,15 @@ const Body = ({ tasks }) => {
             {guest} Guest, {room} Room
           </p>
 
-          <button
-            onClick={() => setShowPop(false)}
-            className="bg-green-400 w-30 text-white text-xl cursor-pointer hover:bg-green-500"
-          >
+          {/* Search Button */}
+          <button className="bg-green-400 w-30 text-white text-xl cursor-pointer hover:bg-green-500">
             Search
           </button>
 
+          {/* Guest & Room Popup */}
           {showPop && (
             <div className="absolute top-16 right-28 bg-white shadow-lg p-4 rounded-lg w-40 z-50">
-              {/* Guest Section */}
+              {/* Guest */}
               <div className="flex justify-between mb-3">
                 <span>Guest</span>
                 <div className="flex gap-2 items-center">
@@ -106,7 +136,7 @@ const Body = ({ tasks }) => {
                 </div>
               </div>
 
-              {/* Room Section */}
+              {/* Room */}
               <div className="flex justify-between">
                 <span>Room</span>
                 <div className="flex gap-2 items-center">
@@ -130,7 +160,7 @@ const Body = ({ tasks }) => {
         </div>
       </div>
 
-      {/* ================= DISPLAY TASKS FROM API ================= */}
+      {/* ================= TASKS FROM API ================= */}
       {tasks && tasks.length > 0 && (
         <div className="p-4 bg-gray-100">
           <h2 className="text-xl font-bold mb-2">Tasks from API:</h2>
@@ -144,7 +174,7 @@ const Body = ({ tasks }) => {
         </div>
       )}
 
-      {/* ================= BODY IMAGES AND CONTENT ================= */}
+      {/* ================= BODY IMAGES & BANNERS ================= */}
       <div className="bg-white h-250 flex items-center justify-evenly flex-col">
         <img
           className="h-70 w-310"
@@ -167,15 +197,11 @@ const Body = ({ tasks }) => {
             />
             <div>
               <p className="text-2xl">Get access to exclusive deals</p>
-              <p className="text-gray-600">
-                Only the best deals reach your inbox
-              </p>
+              <p className="text-gray-600">Only the best deals reach your inbox</p>
             </div>
           </div>
 
-          <p className="text-gray-400 text-xs relative bottom-6 bg-white left-65">
-            Your email
-          </p>
+          <p className="text-gray-400 text-xs relative bottom-6 bg-white left-65">Your email</p>
 
           <div className="flex items-center">
             <input
@@ -183,7 +209,7 @@ const Body = ({ tasks }) => {
               type="text"
               placeholder="e.g., alen@email.com"
             />
-            <button className="mr-3 bg-red-500 h-12 w-29 text-white cursor-pointer rounded-xl">
+            <button className="mr-3 bg-red-500 h-12 w-29 text-white cursor-pointer rounded-xl hover:bg-red-600">
               Notify Me
             </button>
           </div>
@@ -194,5 +220,3 @@ const Body = ({ tasks }) => {
 };
 
 export default Body;
-
-

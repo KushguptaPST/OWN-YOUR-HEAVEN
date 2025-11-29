@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import Body from './components/body';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from './components/navbar';
-import Body from './components/body';
 import Popnav from "./components/popnav";
 import LocationPage from "./components/LocationPage";
 import Footer from "./components/footer";
@@ -20,62 +20,76 @@ import Login from './auth/Login';
 import Signup from './auth/Signup';
 
 import axios from 'axios';
+import AuthProvider from './AuthProvider';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
+  const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    // Fetch tasks from Django API
-    axios.get('http://127.0.0.1:8000/api/tasks/')
-      .then(res => setTasks(res.data))
-      .catch(err => console.log(err));
-  }, []);
+  const locations = [
+    "Koramangla",
+    "WhiteField",
+    "BrookField",
+    "GandhiNagar",
+    "Electronic City",
+    "Ub City",
+    "IndiraNagar",
+    "MarathaHalli",
+    "More Places"
+  ];
+
+  const filteredLocations = locations
+    .filter(loc => loc.toLowerCase().includes(search.toLowerCase()))
+    .slice(0, 5);
 
   return (
-    <BrowserRouter>
-      <Navbar />
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
 
-      <Routes>
-        {/* Home page */}
-        <Route 
-          path="/" 
-          element={
-            <>
-              <Popnav /> 
-              <Body tasks={tasks} /> {/* pass tasks to Body component if needed */}
-            </>
-          } 
-        />
+        <Routes>
+          {/* Home */}
+          <Route 
+            path="/" 
+            element={
+              <>
+                <Popnav /> 
+                <Body 
+                  tasks={tasks}
+                  search={search}
+                  setSearch={setSearch}
+                  suggestions={filteredLocations}
+                />
+              </>
+            } 
+          />
 
-        {/* Location page */}
-        <Route path="/location/:place" element={<LocationPage />} />
+          <Route path="/location/:place" element={<LocationPage />} />
 
-        {/* Other pages */}
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/query" element={<Query />} />
-        <Route path="/guest-policy" element={<GuestPolicy />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/trust-safety" element={<TrustSafety />} />
-        <Route path="/list-property" element={<ListProperty />} />
-        <Route path="/booking" element={<BookingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/query" element={<Query />} />
+          <Route path="/guest-policy" element={<GuestPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/trust-safety" element={<TrustSafety />} />
+          <Route path="/list-property" element={<ListProperty />} />
+          <Route path="/booking" element={<BookingPage />} />
+          
+          {/* Auth */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-      <Footer />
-    </BrowserRouter>
+          
+         
+        </Routes>
+
+        <Footer />
+      </BrowserRouter>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
-
-
-
-      
-
-      
-
 
 
