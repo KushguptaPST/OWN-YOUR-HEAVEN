@@ -1,0 +1,73 @@
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const Signup = () => {
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    if (!name || !email || !password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    alert("Signup Successful!");
+    navigate("/login");
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleSignup}
+        className="bg-white p-8 rounded-2xl shadow-lg w-96"
+      >
+        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">Signup</h2>
+
+        <label>Name</label>
+        <input
+          type="text"
+          className="w-full p-2 border rounded mb-3"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter your name"
+        />
+
+        <label>Email</label>
+        <input
+          type="email"
+          className="w-full p-2 border rounded mb-3"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          className="w-full p-2 border rounded mb-4"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Create password"
+        />
+
+        <button className="w-full bg-gray-900 text-white p-2 rounded-lg text-lg cursor-pointer hover:bg-green-600">
+          Signup
+        </button>
+
+        <p className="text-center mt-4">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 font-semibold">
+            Login
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default Signup;
