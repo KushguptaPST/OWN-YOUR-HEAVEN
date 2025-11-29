@@ -1,14 +1,13 @@
-<<<<<<<<< Temporary merge branch 1
-import React, { useState } from 'react';
-import Navbar from './components/navbar';
-import Body from './components/body';
-=========
-import React, { useEffect, useState } from 'react';
->>>>>>>>> Temporary merge branch 2
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { AuthProvider } from './auth/AuthContext';
 
 import Navbar from './components/navbar';
 import Popnav from "./components/popnav";
+import Body from './components/body';
 import LocationPage from "./components/LocationPage";
 import Footer from "./components/footer";
 
@@ -24,7 +23,6 @@ import BookingPage from './pages/BookingPage';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
 
-<<<<<<<<< Temporary merge branch 1
 const App = () => {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
@@ -43,74 +41,51 @@ const App = () => {
 
   const filteredLocations = locations
     .filter(loc => loc.toLowerCase().includes(search.toLowerCase()))
-    .slice(0, 5); // Only show max 5
-=========
-import axios from 'axios';
-
-const App = () => {
-  const [tasks, setTasks] = useState([]);
+    .slice(0, 5);
 
   useEffect(() => {
-    // Fetch tasks from Django API
     axios.get('http://127.0.0.1:8000/api/tasks/')
       .then(res => setTasks(res.data))
-      .catch(err => console.log(err));
+      .catch(err => console.error("Error fetching tasks:", err));
   }, []);
->>>>>>>>> Temporary merge branch 2
 
   return (
     <AuthProvider>
       <BrowserRouter>
         <Navbar />
 
-      <Routes>
-<<<<<<<<< Temporary merge branch 1
-=========
-        {/* Home page */}
->>>>>>>>> Temporary merge branch 2
-        <Route 
-          path="/" 
-          element={
-            <>
-<<<<<<<<< Temporary merge branch 1
-              <Popnav />
-              <Body 
-                search={search} 
-                setSearch={setSearch}
-                suggestions={filteredLocations}
-              />
-=========
-              <Popnav /> 
-              <Body tasks={tasks} /> {/* pass tasks to Body component if needed */}
->>>>>>>>> Temporary merge branch 2
-            </>
-          } 
-        />
+        <Routes>
 
-<<<<<<<<< Temporary merge branch 1
-        <Route path="/location/:place" element={<LocationPage />} />
-        
-=========
-        {/* Location page */}
-        <Route path="/location/:place" element={<LocationPage />} />
+          <Route 
+            path="/" 
+            element={
+              <>
+                <Popnav />
+                <Body
+                  search={search}
+                  setSearch={setSearch}
+                  suggestions={filteredLocations}
+                  tasks={tasks}
+                />
+              </>
+            }
+          />
 
-        {/* Other pages */}
->>>>>>>>> Temporary merge branch 2
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/query" element={<Query />} />
-        <Route path="/guest-policy" element={<GuestPolicy />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/trust-safety" element={<TrustSafety />} />
-        <Route path="/list-property" element={<ListProperty />} />
-        <Route path="/booking" element={<BookingPage />} />
-<<<<<<<<< Temporary merge branch 1
-=========
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
->>>>>>>>> Temporary merge branch 2
-      </Routes>
+          <Route path="/location/:place" element={<LocationPage />} />
+
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/query" element={<Query />} />
+          <Route path="/guest-policy" element={<GuestPolicy />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/trust-safety" element={<TrustSafety />} />
+          <Route path="/list-property" element={<ListProperty />} />
+          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+        </Routes>
 
         <Footer />
       </BrowserRouter>
@@ -119,15 +94,3 @@ const App = () => {
 };
 
 export default App;
-<<<<<<<<< Temporary merge branch 1
-=========
-
-
-
-      
-
-      
-
-
-
->>>>>>>>> Temporary merge branch 2
