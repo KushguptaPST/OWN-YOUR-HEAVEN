@@ -1,12 +1,12 @@
+from rest_framework import serializers
+from .models import UserDocument
 from rest_framework_mongoengine.serializers import DocumentSerializer
-from .models import UserDocument, Hotel, Booking
+from .models import Hotel,Booking
 
-# ------------------- User Serializer -------------------
-class UserSerializer(DocumentSerializer):
-    class Meta:
-        model = UserDocument
-        fields = ['username', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
+class UserSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=50)
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     def create(self, validated_data):
         user = UserDocument(**validated_data)

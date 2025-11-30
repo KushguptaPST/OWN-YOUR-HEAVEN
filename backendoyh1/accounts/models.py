@@ -19,9 +19,9 @@ class Hotel(Document):
     img = StringField()  # Image URL
     desc = StringField()
 
-    meta = {
-        "collection": "hotels"
-    }
+    # meta = {
+    #     "collection": "hotels"
+    # }
 
 # ------------------- Bookings -------------------
 class Booking(Document):

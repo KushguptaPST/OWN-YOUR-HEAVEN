@@ -7,7 +7,7 @@ urlpatterns = [
     path('userlogin/', LoginView.as_view(), name='userlogin'),
     path('protected/', ProtectedView.as_view(), name='protected'),
     path('hotels/', HotelList.as_view(), name='hotels'),
-    path("hotels/", HotelList.as_view(), name="hotel-list"),
+    # path("hotels/", HotelList.as_view(), name="hotel-list"),
     path("hotels/<str:hotel_id>/", HotelDetail.as_view(), name="hotel-detail"),
    path('bookings/create/', BookingCreateView.as_view(), name='booking-create')
 ]
