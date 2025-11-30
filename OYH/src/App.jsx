@@ -8,7 +8,7 @@ import AuthProvider from "./AuthProvider.jsx";
 import Navbar from "./components/navbar";
 import Popnav from "./components/popnav";
 import Body from "./components/body";
-import LocationPage from "./components/LocationPage";
+// import LocationPage from "./components/LocationPage";
 import Footer from "./components/footer";
 import HotelList from "./components/HotelList.jsx";
 
@@ -71,7 +71,7 @@ const App = () => {
             }
           />
 
-          <Route path="/location/:place" element={<LocationPage />} />
+          {/* <Route path="/location/:place" element={<LocationPage />} /> */}
 
           {/* 🔥 SearchTerm now passed correctly */}
           <Route

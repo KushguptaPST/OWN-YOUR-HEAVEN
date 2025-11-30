@@ -173,7 +173,7 @@ const Body = ({ tasks = [] }) => {
               <p className="text-gray-600">Only the best deals reach your inbox</p>
             </div>
           </div>
-          <input className="mr-3 border border-gray-300 text-gray-500 p-2 w-80 rounded-xl h-13" type="text" placeholder="e.g., alen@email.com" />
+          <input className="mr-3 border border-gray-300 relative left-50  text-gray-500 p-2 w-80 rounded-xl h-13" type="text" placeholder="e.g., alen@email.com" />
           <button className="mr-3 bg-red-500 h-12 w-29 text-white cursor-pointer rounded-xl hover:bg-red-600">Notify Me</button>
         </div>
       </div>
