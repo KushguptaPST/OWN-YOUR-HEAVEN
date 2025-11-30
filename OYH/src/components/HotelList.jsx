@@ -56,7 +56,6 @@ const HotelList = () => {
       <div className="flex justify-between items-start mb-6">
         <h2 className="text-3xl font-bold">Available PGs, Apartments</h2>
 
-        {/* ================= SEARCH BOX ================= */}
         <div className="relative">
           <input
             type="text"
@@ -86,7 +85,7 @@ const HotelList = () => {
       ) : (
         <div className="grid grid-cols-3 gap-6">
           {filteredHotels.map((hotel) => (
-            <HotelCard key={hotel.id || hotel._id} hotel={hotel} />
+            <HotelCard key={hotel.id} hotel={hotel} />
           ))}
         </div>
       )}

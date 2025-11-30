@@ -6,10 +6,10 @@ from .serializer import UserSerializer
 from django.conf import settings
 import jwt
 from datetime import datetime, timedelta
-
+from mongoengine.errors import DoesNotExist, ValidationError
 from .models import Hotel
 from .serializer import HotelSerializer
-
+from bson import ObjectId
 
 # Signup
 class SignupView(APIView):
@@ -80,3 +80,15 @@ class HotelList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class HotelDetail(APIView):
+    def get(self, request, hotel_id):
+        try:
+            # Convert string ID to ObjectId
+            hotel = Hotel.objects.get(id=ObjectId(hotel_id))
+            serializer = HotelSerializer(hotel)
+            return Response(serializer.data)
+        except (DoesNotExist, ValidationError):
+            return Response({"error": "Hotel not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            # Catch-all for debugging
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
