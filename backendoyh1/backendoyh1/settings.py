@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
-
+    'rest_framework_mongoengine',
     # Your custom apps
     'accounts',
     'api',
@@ -134,3 +134,10 @@ env_path = Path(__file__).resolve().parent.parent / ".env"
 load_dotenv(env_path)
 MONGO_URI = os.getenv("MONGO_URI")
 print(MONGO_URI)
+
+
+
+
+
+
+

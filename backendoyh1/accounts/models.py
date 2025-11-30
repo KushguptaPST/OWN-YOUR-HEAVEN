@@ -1,4 +1,4 @@
-from mongoengine import Document, StringField, EmailField
+from mongoengine import Document, StringField, EmailField, IntField
 
 class UserDocument(Document):
     username = StringField(required=True, unique=True)
@@ -6,3 +6,12 @@ class UserDocument(Document):
     password = StringField(required=True)
 
     meta = {"collection": "users"}
+
+
+
+class Hotel(Document):
+    name = StringField(required=True)
+    location = StringField(required=True)
+    price = IntField(required=True)
+    img = StringField()  # image URL
+    desc = StringField()
