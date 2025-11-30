@@ -97,7 +97,9 @@ const Navbar = () => {
               </div>
             </button>
           ) : (
+            
             <div className="flex items-center gap-2">
+              <Link to="/hotels">Hotels</Link>
               <Link to="/login">
                 <button className="px-3 py-1 rounded border">Login</button>
               </Link>
@@ -105,7 +107,8 @@ const Navbar = () => {
                 <button className="px-3 py-1 rounded border">Signup</button>
               </Link>
             </div>
-          )}
+          )
+          }
         </div>
 
         {open && isLoggedIn && (

@@ -22,6 +22,8 @@ import ListProperty from "./pages/ListProperty";
 import BookingPage from './pages/BookingPage';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
+import HotelList from "./components/HotelList.jsx";
+
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -72,6 +74,7 @@ const App = () => {
           />
 
           <Route path="/location/:place" element={<LocationPage />} />
+            <Route path="/hotels" element={<HotelList />} />
 
           <Route path="/about" element={<AboutUs />} />
           <Route path="/terms" element={<Terms />} />
