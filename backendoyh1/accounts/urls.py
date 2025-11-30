@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import SignupView, LoginView, ProtectedView, HotelList, HotelDetail
+from .views import BookingCreateView
 
 urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
@@ -8,4 +9,5 @@ urlpatterns = [
     path('hotels/', HotelList.as_view(), name='hotels'),
     path("hotels/", HotelList.as_view(), name="hotel-list"),
     path("hotels/<str:hotel_id>/", HotelDetail.as_view(), name="hotel-detail"),
+   path('bookings/create/', BookingCreateView.as_view(), name='booking-create')
 ]

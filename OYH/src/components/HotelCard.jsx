@@ -29,6 +29,7 @@ const HotelCard = ({ hotel }) => {
             justifyContent: "space-between",
             alignItems: "center",
             marginTop: "10px",
+            gap: "8px",
           }}
         >
           <p
@@ -36,26 +37,46 @@ const HotelCard = ({ hotel }) => {
               margin: 0,
               fontWeight: "bold",
               fontSize: "18px",
-              color: "#e63946",
+              color: "#000000ff",
             }}
           >
             ₹{hotel.price}
           </p>
-          <button
-            onClick={() => navigate(`/hotels/${hotel.id}`)}
-            style={{
-              fontSize: "14px",
-              fontWeight: "bold",
-              color: "white",
-              background: "red",
-              padding: "6px 10px",
-              borderRadius: "6px",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            View Details
-          </button>
+          <div style={{ display: "flex", gap: "8px" }}>
+            {/* Book Now button */}
+            <button
+              onClick={() => navigate(`/booking?hotelId=${hotel.id}`)}
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "white",
+                background: "green",
+                padding: "6px 10px",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Book Now
+            </button>
+
+            {/* View Details button */}
+            <button
+              onClick={() => navigate(`/hotels/${hotel.id}`)}
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "white",
+                background: "gray",
+                padding: "6px 10px",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              View Details
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -63,5 +84,6 @@ const HotelCard = ({ hotel }) => {
 };
 
 export default HotelCard;
+
 
 

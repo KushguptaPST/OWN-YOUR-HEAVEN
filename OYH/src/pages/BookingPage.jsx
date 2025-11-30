@@ -1,132 +1,130 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const BookingPage = () => {
-  const { state } = useLocation();
-  const hotel = state?.hotel;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const hotelId = searchParams.get("hotelId"); // Must match the query param from "Book Now"
 
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [verified, setVerified] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    checkIn: "",
+    checkOut: "",
+    guests: 1,
+  });
 
-  if (!hotel) return <p>No hotel data found.</p>;
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
-  const discount = 200;
-  const finalAmount = hotel.price - discount;
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  function sendOtp() {
-    if (phone.length !== 10) {
-      alert("Enter valid 10-digit phone number");
-      return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!hotelId) return alert("Hotel ID missing!");
+
+    setLoading(true);
+    try {
+      const res = await axios.post(
+        "http://127.0.0.1:8000/api/v1/bookings/create/", // 🔥 Make sure your urls.py points here
+        {
+          hotelId,
+          ...formData,
+        }
+      );
+      console.log("Booking response:", res.data);
+      setSuccessMsg("Booking successful!");
+      setTimeout(() => navigate("/"), 2000);
+    } catch (err) {
+      console.error("Booking error:", err.response?.data || err.message);
+      alert(
+        `Booking failed! Please check console for details. ${
+          err.response?.data?.error || ""
+        }`
+      );
+    } finally {
+      setLoading(false);
     }
-    setOtpSent(true);
-    alert("OTP Sent: 1234 (Dummy)");
-  }
-
-  function verifyOtp() {
-    if (otp === "1234") {
-      setVerified(true);
-      alert("Phone Verified!");
-    } else {
-      alert("Incorrect OTP");
-    }
-  }
+  };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100 flex justify-center">
-      <div className="flex gap-10 bg-white p-6 rounded-xl shadow-lg w-full max-w-4xl">
-
-        {/* Left: Form */}
-        <div className="w-1/2">
-          <h2 className="text-2xl font-bold mb-4">Enter Your Details</h2>
-
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="border w-full p-2 rounded mb-3"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-
-          <input
-            type="email"
-            placeholder="Email ID"
-            className="border w-full p-2 rounded mb-3"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <div className="mb-3">
-            <input
-              type="number"
-              placeholder="Phone Number"
-              className="border w-full p-2 rounded"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-
-            {!otpSent && !verified && (
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded mt-2"
-                onClick={sendOtp}
-              >
-                Send OTP
-              </button>
-            )}
-
-            {otpSent && !verified && (
-              <div className="mt-2">
-                <input
-                  type="number"
-                  placeholder="Enter OTP"
-                  className="border w-full p-2 rounded"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                />
-                <button
-                  className="bg-green-600 text-white px-4 py-2 rounded mt-2"
-                  onClick={verifyOtp}
-                >
-                  Verify OTP
-                </button>
-              </div>
-            )}
-
-            {verified && (
-              <p className="text-green-600 font-bold mt-2">✔ Number Verified</p>
-            )}
-          </div>
-
-          <button className="bg-red-600 text-white px-4 py-2 rounded mt-4 w-full text-xl">
-            Confirm Booking
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow">
+      <h2 className="text-2xl font-bold mb-4">Book Your Stay</h2>
+      {successMsg && <p className="text-green-600 mb-4">{successMsg}</p>}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+          value={formData.name}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          required
+          value={formData.email}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Phone Number"
+          required
+          value={formData.phone}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          type="date"
+          name="checkIn"
+          placeholder="Check-in Date"
+          required
+          value={formData.checkIn}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          type="date"
+          name="checkOut"
+          placeholder="Check-out Date"
+          required
+          value={formData.checkOut}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <input
+          type="number"
+          name="guests"
+          placeholder="Number of Guests"
+          min={1}
+          required
+          value={formData.guests}
+          onChange={handleChange}
+          className="border p-2 rounded"
+        />
+        <div className="flex gap-2">
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-green-600 text-white py-2 rounded font-bold flex-1"
+          >
+            {loading ? "Booking..." : "Confirm Booking"}
           </button>
         </div>
-
-        {/* Right: Bill Summary */}
-        <div className="w-1/2 bg-gray-50 p-4 rounded-lg border">
-          <h2 className="text-xl font-bold mb-4">Bill Summary</h2>
-
-          <div className="mb-3">
-            <img src={hotel.img} alt="" className="h-40 w-full rounded" />
-            <p className="text-xl font-semibold mt-2">{hotel.name}</p>
-          </div>
-
-          <p className="text-lg">Room Price: ₹ {hotel.price}</p>
-          <p className="text-lg text-green-600">OYO Discount: -₹ {discount}</p>
-
-          <hr className="my-3"/>
-
-          <p className="text-2xl font-bold">
-            Payable Amount: ₹ {finalAmount}
-          </p>
-        </div>
-
-      </div>
+      </form>
     </div>
   );
 };
 
 export default BookingPage;
+
