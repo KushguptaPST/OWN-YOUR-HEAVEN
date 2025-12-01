@@ -1,11 +1,12 @@
+// src/pages/Login.jsx
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api"; 
+import api from "../api";
 import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // using new login method
+  const { login } = useContext(AuthContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,16 +24,11 @@ const Login = () => {
         password,
       });
 
-      // Save JWT tokens
-      localStorage.setItem("accessToken", response.data.access);
-      localStorage.setItem("refreshToken", response.data.refresh);
-
-      // Store user in context
+      // Save tokens & username in context
       login({ username }, response.data.access);
 
-      // 🔥 CHECK IF USER WAS TRYING TO BOOK A HOTEL
+      // Redirect if user was trying to book
       const redirectUrl = localStorage.getItem("redirectAfterLogin");
-
       if (redirectUrl) {
         localStorage.removeItem("redirectAfterLogin");
         navigate(redirectUrl);
@@ -49,13 +45,8 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-8 rounded-2xl shadow-lg w-96"
-      >
-        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">
-          Login
-        </h2>
+      <form onSubmit={handleLogin} className="bg-white p-8 rounded-2xl shadow-lg w-96">
+        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">Login</h2>
 
         <label>Username</label>
         <input
@@ -86,9 +77,7 @@ const Login = () => {
 
         <p className="text-center mt-4">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-600 font-semibold">
-            Signup
-          </Link>
+          <Link to="/signup" className="text-blue-600 font-semibold">Signup</Link>
         </p>
       </form>
     </div>
@@ -96,4 +85,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
 

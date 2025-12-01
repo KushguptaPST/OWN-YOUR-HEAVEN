@@ -3,7 +3,7 @@ import { useAuth } from "../AuthProvider"; // ✅ make sure this exists
 
 const HotelCard = ({ hotel }) => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth(); // ✅ check login status
+  const { isLoggedIn, user } = useAuth(); // ✅ added user access
 
   const handleBooking = () => {
     if (isLoggedIn) {
@@ -11,6 +11,8 @@ const HotelCard = ({ hotel }) => {
       navigate(`/booking?hotelId=${hotel.id}`);
     } else {
       // ❌ Not logged in → go to login page
+      // Save redirect to go back after login
+      localStorage.setItem("redirectAfterLogin", `/booking?hotelId=${hotel.id}`);
       navigate("/login");
     }
   };
@@ -35,6 +37,14 @@ const HotelCard = ({ hotel }) => {
       <div style={{ padding: "15px" }}>
         <h3 style={{ marginBottom: "6px" }}>{hotel.name}</h3>
         <p style={{ color: "#666", margin: "0" }}>{hotel.location}</p>
+
+        {/* Optional: show username if logged in */}
+        {isLoggedIn && user?.username && (
+          <p style={{ color: "#333", fontSize: "12px", margin: "4px 0" }}>
+            Logged in as {user.username}
+          </p>
+        )}
+
         <div
           style={{
             display: "flex",
@@ -97,6 +107,7 @@ const HotelCard = ({ hotel }) => {
 };
 
 export default HotelCard;
+
 
 
 
