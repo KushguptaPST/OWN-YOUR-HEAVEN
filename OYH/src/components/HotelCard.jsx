@@ -1,7 +1,24 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthProvider";
+// <-- your existing auth context
 
 const HotelCard = ({ hotel }) => {
   const navigate = useNavigate();
+  const { user } = useAuth(); // logged-in user info
+
+  const handleBookNow = () => {
+    if (!user) {
+      // save next page to open after login
+      localStorage.setItem(
+        "redirectAfterLogin",
+        `/booking?hotelId=${hotel.id}`
+      );
+      navigate("/login");
+      return;
+    }
+
+    navigate(`/booking?hotelId=${hotel.id}`);
+  };
 
   return (
     <div
@@ -23,6 +40,7 @@ const HotelCard = ({ hotel }) => {
       <div style={{ padding: "15px" }}>
         <h3 style={{ marginBottom: "6px" }}>{hotel.name}</h3>
         <p style={{ color: "#666", margin: "0" }}>{hotel.location}</p>
+
         <div
           style={{
             display: "flex",
@@ -42,10 +60,11 @@ const HotelCard = ({ hotel }) => {
           >
             ₹{hotel.price}
           </p>
+
           <div style={{ display: "flex", gap: "8px" }}>
-            {/* Book Now button */}
+            {/* Book Now button with login check */}
             <button
-              onClick={() => navigate(`/booking?hotelId=${hotel.id}`)}
+              onClick={handleBookNow}
               style={{
                 fontSize: "14px",
                 fontWeight: "bold",
@@ -60,7 +79,7 @@ const HotelCard = ({ hotel }) => {
               Book Now
             </button>
 
-            {/* View Details button */}
+            {/* View Details button (unchanged) */}
             <button
               onClick={() => navigate(`/hotels/${hotel.id}`)}
               style={{
