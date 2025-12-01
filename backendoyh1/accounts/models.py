@@ -7,9 +7,9 @@ class UserDocument(Document):
     email = EmailField(required=True, unique=True)
     password = StringField(required=True)  # Store hashed password in production
 
-    meta = {
-        "collection": "users"
-    }
+    # meta = {
+    #     "collection": "users"
+    # }
 
 # ------------------- Hotels -------------------
 class Hotel(Document):
@@ -33,7 +33,7 @@ class Booking(Document):
     checkOut = DateField(required=True)
     guests = IntField(required=True)
 
-    meta = {
-        "collection": "bookings"
-    }
+    # meta = {
+    #     "collection": "bookings"
+    # }
 
