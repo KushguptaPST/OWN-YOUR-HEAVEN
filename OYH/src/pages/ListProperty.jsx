@@ -9,19 +9,21 @@ export default function ListProperty() {
     city: "",
     message: "",
     facilities: "",
-    photos: [],
+    photos: Array(5).fill(null), // exactly 5 slots
   });
 
-  const handlePhotoUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setFormData({ ...formData, photos: files });
+  const handlePhotoUpload = (e, index) => {
+    const file = e.target.files[0];
+    const updatedPhotos = [...formData.photos];
+    updatedPhotos[index] = file;
+    setFormData({ ...formData, photos: updatedPhotos });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.photos.length < 5) {
-      alert("Please upload at least 5 property photos!");
+    if (formData.photos.filter((img) => img !== null).length < 5) {
+      alert("Please upload exactly 5 photos!");
       return;
     }
 
@@ -98,7 +100,6 @@ export default function ListProperty() {
             }
           ></textarea>
 
-          {/* ⭐ FACILITIES SECTION */}
           <textarea
             placeholder="Facilities (WiFi, AC, Parking, CCTV, etc.)"
             className="w-full p-3 border rounded-lg"
@@ -108,41 +109,39 @@ export default function ListProperty() {
             }
           ></textarea>
 
-          {/* ⭐ PHOTO UPLOAD SECTION */}
-          <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center">
+          {/* ⭐ EXACTLY 5 IMAGE UPLOAD BOXES */}
+          <div>
             <label className="font-semibold text-lg block mb-3">
-              Upload Property Photos (Minimum 5)
+              Upload Exactly 5 Property Photos
             </label>
 
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className="w-full p-3 border rounded-lg bg-gray-50 cursor-pointer"
-              onChange={handlePhotoUpload}
-            />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {formData.photos.map((photo, index) => (
+                <div key={index} className="border border-gray-300 rounded-lg p-3 text-center">
+                  {photo ? (
+                    <img
+                      src={URL.createObjectURL(photo)}
+                      alt="preview"
+                      className="h-32 w-full object-cover rounded-lg shadow"
+                    />
+                  ) : (
+                    <div className="h-32 flex items-center justify-center border border-dashed border-gray-400 rounded-lg text-gray-500">
+                      No Image
+                    </div>
+                  )}
 
-            {/* Count of selected photos */}
-            <p className="mt-2 text-gray-600">
-              Selected: {formData.photos.length} / 5 required
-            </p>
-          </div>
-
-          {/* ⭐ IMAGE PREVIEW */}
-          {formData.photos.length > 0 && (
-            <div className="grid grid-cols-3 gap-3 mt-4">
-              {formData.photos.map((file, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(file)}
-                  alt="preview"
-                  className="h-24 w-full object-cover rounded-lg shadow"
-                />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="w-full mt-2"
+                    onChange={(e) => handlePhotoUpload(e, index)}
+                  />
+                </div>
               ))}
             </div>
-          )}
+          </div>
 
-          <button className="bg-blue-600 text-white w-full p-3 rounded-lg font-semibold">
+          <button className="bg-blue-600 text-white w-full p-3 rounded-lg font-semibold mt-4">
             Submit
           </button>
         </form>
