@@ -71,16 +71,28 @@ class ProtectedView(APIView):
 # ------------------- Hotels -------------------
 class HotelList(APIView):
     def get(self, request):
-        hotels = Hotel.objects()
-        serializer = HotelSerializer(hotels, many=True)
+        queryset = Hotel.objects()
+
+        location = request.GET.get("location")
+        category = request.GET.get("category")
+        sharing = request.GET.get("sharing")
+        min_price = request.GET.get("min_price")
+        max_price = request.GET.get("max_price")
+
+        if location:
+            queryset = queryset.filter(location__icontains=location)
+        if category:
+            queryset = queryset.filter(category=category)
+        if sharing:
+            queryset = queryset.filter(sharing__contains=sharing)
+        if min_price:
+            queryset = queryset.filter(price__gte=int(min_price))
+        if max_price:
+            queryset = queryset.filter(price__lte=int(max_price))
+
+        serializer = HotelSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = HotelSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class HotelDetail(APIView):
     def get(self, request, hotel_id):

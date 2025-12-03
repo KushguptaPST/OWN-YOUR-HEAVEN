@@ -1,5 +1,4 @@
-# models.py
-from mongoengine import Document, StringField, EmailField, IntField, DateField, DateTimeField
+from mongoengine import Document, StringField, EmailField, IntField, DateField, DateTimeField, ListField
 import datetime
 
 # ------------------- Users -------------------
@@ -13,8 +12,17 @@ class Hotel(Document):
     name = StringField(required=True)
     location = StringField(required=True)
     price = IntField(required=True)
-    img = StringField()  # Image URL
+    img = StringField()
     desc = StringField()
+
+    # Category options
+    category = StringField(choices=["Boys", "Girls", "Unisex"], default="Unisex")
+
+    # Sharing options (multiple allowed)
+    sharing = ListField(
+        StringField(choices=["Single", "Double", "Triple", "Quad"]),
+        default=["Single", "Double", "Triple"]
+    )
 
 # ------------------- Bookings -------------------
 class Booking(Document):
@@ -36,6 +44,3 @@ class PropertyListing(Document):
     message = StringField()
     facilities = StringField()
     created_at = DateTimeField(default=datetime.datetime.utcnow)
-
-
-

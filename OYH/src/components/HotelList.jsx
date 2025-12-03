@@ -1,97 +1,121 @@
 import React, { useEffect, useState } from "react";
 import HotelCard from "./HotelCard";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import GlobalSearch from "./GlobalSearch";
 
 const HotelList = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get("search") || "";
 
   const [hotels, setHotels] = useState([]);
-  const [filteredHotels, setFilteredHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [search, setSearch] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [category, setCategory] = useState("");
+  const [sharing, setSharing] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(14000);
 
-  // ================= FETCH HOTELS =================
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/v1/hotels/")
-      .then((res) => res.json())
-      .then((data) => setHotels(data))
-      .catch((err) => console.error(err));
-  }, []);
+  const buildUrl = () => {
+    const base = "http://127.0.0.1:8000/api/v1/hotels/";
+    const params = new URLSearchParams();
 
-  // ================= FILTER HOTELS =================
-  useEffect(() => {
-    const filtered = hotels.filter((hotel) =>
-      hotel.location.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredHotels(filtered);
-  }, [hotels, searchQuery]);
+    if (searchQuery) params.append("location", searchQuery);
+    if (category) params.append("category", category);
+    if (sharing) params.append("sharing", sharing);
+    if (minPrice > 0) params.append("min_price", minPrice);
+    if (maxPrice < 14000) params.append("max_price", maxPrice);
 
-  // ================= SEARCH SUGGESTIONS =================
-  useEffect(() => {
-    if (search.trim() === "") {
-      setSuggestions([]);
-      return;
-    }
-    const filteredSuggestions = hotels
-      .map((h) => h.location)
-      .filter(
-        (loc, i, arr) =>
-          loc.toLowerCase().includes(search.toLowerCase()) &&
-          arr.indexOf(loc) === i
-      );
-    setSuggestions(filteredSuggestions);
-  }, [search, hotels]);
-
-  const handleSearchClick = (location) => {
-    setSearch("");
-    navigate(`/hotels?search=${encodeURIComponent(location)}`);
+    return params.toString() ? `${base}?${params.toString()}` : base;
   };
 
-  return (
-    <div className="p-6 bg-gray-100 min-h-screen ">
-      <div className="flex justify-between items-start mb-15 ">
-        <h2 className="text-3xl font-bold">Available PGs, Apartments in {searchQuery}</h2>
+  useEffect(() => {
+    setLoading(true);
+    fetch(buildUrl())
+      .then((res) => res.json())
+      .then((data) => {
+        setHotels(data);
+        setLoading(false);
+      })
+      .catch((err) => console.error("Error fetching hotels:", err));
+  }, [searchQuery, category, sharing, minPrice, maxPrice]);
 
-        {/* ================= SEARCH BOX ================= */}
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search by places,cities"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="border p-2 rounded w-60 mr-43"
-          />
-          {suggestions.length > 0 && (
-            <div className="absolute top-10 left-0 bg-white border rounded-md shadow-md w-80 z-50">
-              {suggestions.map((loc) => (
-                <div
-                  key={loc}
-                  className="p-2 cursor-pointer hover:bg-gray-200"
-                  onClick={() => handleSearchClick(loc)}
-                >
-                  {loc}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+  return (
+    <div className="p-6 bg-gray-100 min-h-screen">
+      {/* Search bar moved here */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold">
+          Available PGs, Apartments in {searchQuery || "All Locations"}
+        </h2>
+        <GlobalSearch />
       </div>
 
-      <div className="flex w-350 justify-center ">
-        {filteredHotels.length === 0 ? (
-        <p className="text-black text-lg">No results found for "{searchQuery}"</p>
+      {/* Filters */}
+      <div className="flex items-center gap-4 mb-8">
+        <select
+          className="border p-2 rounded"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          <option value="Boys">Boys</option>
+          <option value="Girls">Girls</option>
+          <option value="Unisex">Unisex</option>
+        </select>
+
+        <select
+          className="border p-2 rounded"
+          value={sharing}
+          onChange={(e) => setSharing(e.target.value)}
+        >
+          <option value="">Room Sharing</option>
+          <option value="Single">Single</option>
+          <option value="Double">Double</option>
+          <option value="Triple">Triple</option>
+        </select>
+
+        <div className="flex items-center gap-3">
+          <span className="text-sm">₹{minPrice} - ₹{maxPrice}</span>
+          <input
+            type="range"
+            min="0"
+            max="14000"
+            step="500"
+            value={maxPrice}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              if (val >= minPrice) setMaxPrice(val);
+            }}
+          />
+        </div>
+
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded"
+          onClick={() => {
+            setCategory("");
+            setSharing("");
+            setMinPrice(0);
+            setMaxPrice(14000);
+          }}
+        >
+          Clear Filters
+        </button>
+      </div>
+
+      {/* Hotel Cards */}
+      {loading ? (
+        <p className="text-lg">Loading...</p>
+      ) : hotels.length === 0 ? (
+        <p className="text-lg text-gray-700">
+          No results found for "{searchQuery}"
+        </p>
       ) : (
-        <div className="grid grid-cols-3 gap-16">
-          {filteredHotels.map((hotel) => (
-            <HotelCard key={hotel.id || hotel._id} hotel={hotel} />
+        <div className="grid grid-cols-3 gap-14">
+          {hotels.map((hotel) => (
+            <HotelCard key={hotel._id || hotel.id} hotel={hotel} />
           ))}
         </div>
       )}
-      </div>
     </div>
   );
 };
