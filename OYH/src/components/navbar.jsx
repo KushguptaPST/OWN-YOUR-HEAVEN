@@ -70,6 +70,7 @@ const Navbar = () => {
               aria-expanded={open}
             >
               <div className="flex items-center gap-2">
+                              <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
                 <span className="hidden sm:inline">Welcome,</span>
                 <span>{user?.username || "User"}</span>
                 <svg className="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
@@ -97,12 +98,7 @@ const Navbar = () => {
             aria-orientation="vertical"
             aria-labelledby="user-menu-button"
           >
-            <Link to="/my-bookings" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
-              My Bookings
-            </Link>
-            <Link to="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
-              My Profile
-            </Link>
+            
             <Link to="/help" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
               Help
             </Link>

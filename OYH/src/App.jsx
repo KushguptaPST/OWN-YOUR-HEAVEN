@@ -21,6 +21,7 @@ import ListProperty from "./pages/ListProperty";
 import BookingPage from "./pages/BookingPage";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
+import Help from "./pages/Help";
 
 const App = () => {
   const [search, setSearch] = useState("");
@@ -70,6 +71,9 @@ const App = () => {
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          <Route path="/help" element={<Help />} />
+          
         </Routes>
 
         <Footer />
