@@ -79,7 +79,7 @@ const Navbar = () => {
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/hotels">Hotels</Link>
+              <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
               <Link to="/login">
                 <button className="px-3 py-1 rounded border">Login</button>
               </Link>

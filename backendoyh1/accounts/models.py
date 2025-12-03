@@ -1,15 +1,12 @@
-# backendoyh1/models.py
-from mongoengine import Document, StringField, EmailField, IntField, DateField
+# models.py
+from mongoengine import Document, StringField, EmailField, IntField, DateField, DateTimeField
+import datetime
 
 # ------------------- Users -------------------
 class UserDocument(Document):
     username = StringField(required=True, unique=True)
     email = EmailField(required=True, unique=True)
     password = StringField(required=True)  # Store hashed password in production
-
-    # meta = {
-    #     "collection": "users"
-    # }
 
 # ------------------- Hotels -------------------
 class Hotel(Document):
@@ -18,10 +15,6 @@ class Hotel(Document):
     price = IntField(required=True)
     img = StringField()  # Image URL
     desc = StringField()
-
-    # meta = {
-    #     "collection": "hotels"
-    # }
 
 # ------------------- Bookings -------------------
 class Booking(Document):
@@ -33,7 +26,16 @@ class Booking(Document):
     checkOut = DateField(required=True)
     guests = IntField(required=True)
 
-    # meta = {
-    #     "collection": "bookings"
-    # }
+# ------------------- Property Listing -------------------
+class PropertyListing(Document):
+    name = StringField(required=True)
+    phone = StringField(required=True)
+    email = EmailField()
+    propertyType = StringField(required=True)
+    city = StringField(required=True)
+    message = StringField()
+    facilities = StringField()
+    created_at = DateTimeField(default=datetime.datetime.utcnow)
+
+
 

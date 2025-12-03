@@ -4,7 +4,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 // Create context
 export const AuthContext = createContext();
 
-// 🔥 Export a custom hook for easier usage
+// Export custom hook
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
@@ -14,16 +14,24 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     const storedUsername = localStorage.getItem("username");
+
     if (token && storedUsername) {
       setIsLoggedIn(true);
       setUser({ username: storedUsername });
     }
   }, []);
 
-  const login = (userData, accessToken) => {
+  const login = (userData, accessToken, refreshToken) => {
     setIsLoggedIn(true);
     setUser(userData);
+
+    // Save tokens
     localStorage.setItem("accessToken", accessToken);
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken);
+    }
+
+    // Save username for persistence
     localStorage.setItem("username", userData.username);
   };
 
@@ -36,13 +44,16 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, user, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
 export default AuthProvider;
+
 
 
 

@@ -1,8 +1,9 @@
+# views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import UserDocument, Hotel, Booking
-from .serializer import UserSerializer, HotelSerializer, BookingSerializer
+from .models import UserDocument, Hotel, PropertyListing, Booking
+from .serializer import UserSerializer, HotelSerializer, BookingSerializer, PropertyListingSerializer
 from django.conf import settings
 import jwt
 from datetime import datetime, timedelta
@@ -43,6 +44,7 @@ class LoginView(APIView):
             "iat": datetime.utcnow()
         }
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
+        # In PyJWT>=2, jwt.encode returns str; if bytes, you may need .decode()
         return Response({"access": token})
 
 # ------------------- Protected -------------------
@@ -52,7 +54,11 @@ class ProtectedView(APIView):
         if not auth_header:
             return Response({"error": "No token provided"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        token = auth_header.split(" ")[1]
+        parts = auth_header.split(" ")
+        if len(parts) != 2:
+            return Response({"error": "Invalid Authorization header"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        token = parts[1]
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
@@ -68,7 +74,7 @@ class HotelList(APIView):
         hotels = Hotel.objects()
         serializer = HotelSerializer(hotels, many=True)
         return Response(serializer.data)
-    
+
     def post(self, request):
         serializer = HotelSerializer(data=request.data)
         if serializer.is_valid():
@@ -79,6 +85,7 @@ class HotelList(APIView):
 class HotelDetail(APIView):
     def get(self, request, hotel_id):
         try:
+            # You can use string id directly with mongoengine, but using ObjectId is okay too.
             hotel = Hotel.objects.get(id=ObjectId(hotel_id))
             serializer = HotelSerializer(hotel)
             return Response(serializer.data)
@@ -91,13 +98,29 @@ class HotelDetail(APIView):
 class BookingCreateView(APIView):
     def post(self, request):
         data = request.data.copy()
-        # Ensure hotelId is stored as string
         if 'hotelId' in data:
             data['hotelId'] = str(data['hotelId'])
-        
+
         serializer = BookingSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Booking successful", "booking": serializer.data}, status=status.HTTP_201_CREATED)
         return Response({"error": "Booking failed", "details": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+# ------------------- Property Listing -------------------
+class PropertyCreateView(APIView):
+    def post(self, request):
+        try:
+            # Expecting JSON body (no files)
+            serializer = PropertyListingSerializer(data=request.data)
+            if serializer.is_valid():
+                listing = serializer.save()
+                return Response(
+                    {"message": "Property listing created", "id": str(listing.id)},
+                    status=status.HTTP_201_CREATED
+                )
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -24,7 +24,13 @@ const Login = () => {
         password,
       });
 
-      // Save tokens & username in context
+      // -------------------------------
+      // ✅ FIX: Save tokens in localStorage
+      // -------------------------------
+      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem("refreshToken", response.data.refresh);
+
+      // Save user in context
       login({ username }, response.data.access);
 
       // Redirect if user was trying to book
@@ -45,8 +51,13 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-8 rounded-2xl shadow-lg w-96">
-        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">Login</h2>
+      <form
+        onSubmit={handleLogin}
+        className="bg-white p-8 rounded-2xl shadow-lg w-96"
+      >
+        <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">
+          Login
+        </h2>
 
         <label>Username</label>
         <input
@@ -77,7 +88,9 @@ const Login = () => {
 
         <p className="text-center mt-4">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-600 font-semibold">Signup</Link>
+          <Link to="/signup" className="text-blue-600 font-semibold">
+            Signup
+          </Link>
         </p>
       </form>
     </div>
@@ -85,6 +98,5 @@ const Login = () => {
 };
 
 export default Login;
-
 
 
