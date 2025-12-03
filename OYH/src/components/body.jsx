@@ -162,8 +162,8 @@ const Body = ({ tasks = [] }) => {
 
       {/* ================= BODY BANNERS ================= */}
       <div className="bg-white h-250 flex items-center justify-evenly flex-col">
-        <img className="h-70 w-310" src="https://assets.oyoroomscdn.com/cmsMedia/1606e8a0-685f-4c31-8319-4b592f1ca086.jpg" alt="" />
-        <img className="h-70 w-310" src="https://assets.oyoroomscdn.com/cmsMedia/33e8565d-f803-49ab-9269-a4bc97cd835d.jpg" alt="" />
+        <img onClick={()=>navigate('/hotels')} className="h-70 w-310 cursor-pointer" src="https://assets.oyoroomscdn.com/cmsMedia/1606e8a0-685f-4c31-8319-4b592f1ca086.jpg" alt="" />
+        <img onClick={()=>navigate('/hotels')} className="h-70 w-310 cursor-pointer" src="https://assets.oyoroomscdn.com/cmsMedia/33e8565d-f803-49ab-9269-a4bc97cd835d.jpg" alt="" />
 
         <div className="h-28 w-310 border border-gray-300 flex items-center justify-between">
           <div className="flex items-center">

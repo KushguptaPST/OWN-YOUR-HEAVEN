@@ -21,20 +21,11 @@ const HotelCard = ({ hotel }) => {
         <h3 style={{ marginBottom: "6px" }}>{hotel.name}</h3>
         <p style={{ color: "#666", margin: "0" }}>{hotel.location}</p>
 
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: "10px"
-        }}>
-          <p style={{
-            margin: 0,
-            fontWeight: "bold",
-            fontSize: "18px",
-            color: "#e63946"
-          }}>
-            ₹{hotel.price}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px"}}>
+          <p style={{ margin: 0, fontWeight: "bold", fontSize: "18px", color: "#e63946"}}>
+            ₹{hotel.price} 
           </p>
+          <p className="mr-8">onwards</p>
 
           <a
             href="/booking"

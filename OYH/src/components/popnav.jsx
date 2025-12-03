@@ -22,7 +22,7 @@ const Popnav = () => {
   return (
     <div className="">
       <div className="bg-white h-10 border justify-evenly flex overflow-x-auto">
-        {locations.slice(0,6).map((loc) => (
+        {locations.slice(0,7).map((loc) => (
           <div
             key={loc}
             className="h-9 min-w-max px-4 cursor-pointer flex items-center hover:text-red-500"

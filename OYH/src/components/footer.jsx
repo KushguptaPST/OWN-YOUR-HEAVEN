@@ -13,14 +13,14 @@ function Footer() {
 
         {/* App download buttons */}
         <div className="flex flex-col md:flex-row gap-4">
-          <a href="#" className="hover:scale-105 transition-transform">
+          <a href="https://www.apple.com/in/app-store/" className="hover:scale-105 transition-transform">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Download_on_the_Mac_App_Store_Badge_NL_RGB_blk.svg/2560px-Download_on_the_Mac_App_Store_Badge_NL_RGB_blk.svg.png"
               alt="App Store"
               className="h-14"
             />
           </a>
-          <a href="#" className="hover:scale-105 transition-transform">
+          <a href="https://play.google.com/store/games?hl=en" className="hover:scale-105 transition-transform">
             <img
               src="https://static.vecteezy.com/system/resources/previews/012/871/365/non_2x/google-play-store-download-button-in-black-colors-download-on-the-google-play-store-free-png.png"
               alt="Google Play"

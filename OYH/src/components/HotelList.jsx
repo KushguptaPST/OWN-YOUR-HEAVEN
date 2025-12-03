@@ -52,9 +52,9 @@ const HotelList = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-start mb-6">
-        <h2 className="text-3xl font-bold">Available PGs, Apartments</h2>
+    <div className="p-6 bg-gray-100 min-h-screen ">
+      <div className="flex justify-between items-start mb-15 ">
+        <h2 className="text-3xl font-bold">Available PGs, Apartments in {searchQuery}</h2>
 
         {/* ================= SEARCH BOX ================= */}
         <div className="relative">
@@ -81,15 +81,17 @@ const HotelList = () => {
         </div>
       </div>
 
-      {filteredHotels.length === 0 ? (
+      <div className="flex w-350 justify-center ">
+        {filteredHotels.length === 0 ? (
         <p className="text-black text-lg">No results found for "{searchQuery}"</p>
       ) : (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-16">
           {filteredHotels.map((hotel) => (
             <HotelCard key={hotel.id || hotel._id} hotel={hotel} />
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 };

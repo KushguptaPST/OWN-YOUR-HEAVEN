@@ -15,3 +15,7 @@ class Hotel(Document):
     price = IntField(required=True)
     img = StringField()  # image URL
     desc = StringField()
+
+
+
+    
