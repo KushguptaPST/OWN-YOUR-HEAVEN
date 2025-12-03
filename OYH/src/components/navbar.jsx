@@ -4,56 +4,38 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
 
 const Navbar = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, user, logout } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
-  const [username, setUsername] = useState("Guest"); // default
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
-  // Update username whenever login state changes
-  useEffect(() => {
-    const storedUser = localStorage.getItem("username");
-    if (storedUser) setUsername(storedUser);
-    else setUsername("Guest");
-  }, [isLoggedIn]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("username");
-    setIsLoggedIn(false);
-    setUsername("Guest");
-    setOpen(false);
-    navigate("/");
-  };
-
-  // Close dropdown when clicking outside or pressing ESC
   useEffect(() => {
     const onDocClick = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
     };
     const onEsc = (e) => {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("click", onDocClick);
     document.addEventListener("keydown", onEsc);
-
     return () => {
       document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onEsc);
     };
   }, []);
 
+  const handleLogout = () => {
+    logout();
+    setOpen(false);
+    navigate("/");
+  };
+
   return (
     <div className="flex flex-wrap justify-between items-center border-b px-4">
-      {/* Logo */}
       <div className="h-20 flex items-center text-4xl font-serif font-bold">
         <Link to="/" className="select-none">OYH</Link>
       </div>
 
-      {/* Middle actions */}
       <div className="flex items-center gap-3">
         <Link to="/list-property" className="text-sm">
           <div className="text-md h-14 px-4 flex flex-col justify-center items-center border rounded">
@@ -73,7 +55,6 @@ const Navbar = () => {
         </a>
       </div>
 
-      {/* User section */}
       <div className="relative" ref={dropdownRef}>
         <div className="h-14 flex items-center gap-3 border rounded px-3 ml-4">
           <div
@@ -89,17 +70,17 @@ const Navbar = () => {
               aria-expanded={open}
             >
               <div className="flex items-center gap-2">
+                              <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
                 <span className="hidden sm:inline">Welcome,</span>
-                <span>{username}</span>
+                <span>{user?.username || "User"}</span>
                 <svg className="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
                   <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                 </svg>
               </div>
             </button>
           ) : (
-            
             <div className="flex items-center gap-2">
-              
+              <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
               <Link to="/login">
                 <button className="px-3 py-1 rounded border">Login</button>
               </Link>
@@ -107,8 +88,7 @@ const Navbar = () => {
                 <button className="px-3 py-1 rounded border">Signup</button>
               </Link>
             </div>
-          )
-          }
+          )}
         </div>
 
         {open && isLoggedIn && (
@@ -118,12 +98,7 @@ const Navbar = () => {
             aria-orientation="vertical"
             aria-labelledby="user-menu-button"
           >
-            <Link to="/my-bookings" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
-              My Bookings
-            </Link>
-            <Link to="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
-              My Profile
-            </Link>
+            
             <Link to="/help" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
               Help
             </Link>
@@ -143,3 +118,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

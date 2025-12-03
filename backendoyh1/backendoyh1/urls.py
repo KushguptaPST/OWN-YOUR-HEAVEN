@@ -12,4 +12,5 @@ urlpatterns = [
     # Include other app URLs
     path('api/v1/', include('accounts.urls')),  # Signup, profile, etc.
     path('api/', include('api.urls')),          # Tasks endpoints
+    
 ]

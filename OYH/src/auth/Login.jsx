@@ -1,11 +1,12 @@
+// src/pages/Login.jsx
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../api"; // use the axios instance with JWT interceptors
+import api from "../api";
 import { AuthContext } from "../AuthProvider";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,15 +19,28 @@ const Login = () => {
     setLoading(true);
 
     try {
-      // Use your axios instance
-      const response = await api.post("v1/userlogin/", { username, password });
+      const response = await api.post("v1/userlogin/", {
+        username,
+        password,
+      });
 
-      // Save tokens in localStorage
+      // -------------------------------
+      // ✅ FIX: Save tokens in localStorage
+      // -------------------------------
       localStorage.setItem("accessToken", response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
 
-      setIsLoggedIn(true);
-      navigate("/");
+      // Save user in context
+      login({ username }, response.data.access);
+
+      // Redirect if user was trying to book
+      const redirectUrl = localStorage.getItem("redirectAfterLogin");
+      if (redirectUrl) {
+        localStorage.removeItem("redirectAfterLogin");
+        navigate(redirectUrl);
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error("Login error:", err.response?.data || err);
       setError(err.response?.data?.detail || "Invalid credentials");
@@ -43,7 +57,7 @@ const Login = () => {
       >
         <h2 className="text-3xl font-bold mb-5 text-center text-gray-900">
           Login
-        </h2> 
+        </h2>
 
         <label>Username</label>
         <input
@@ -84,3 +98,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

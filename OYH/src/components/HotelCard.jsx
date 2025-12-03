@@ -1,46 +1,106 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthProvider"; // ✅ make sure this exists
 
 const HotelCard = ({ hotel }) => {
+  const navigate = useNavigate();
+  const { isLoggedIn, user } = useAuth(); // ✅ added user access
+
+  const handleBooking = () => {
+    if (isLoggedIn) {
+      // ✅ User is logged in → go to booking page
+      navigate(`/booking?hotelId=${hotel.id}`);
+    } else {
+      // ❌ Not logged in → go to login page
+      // Save redirect to go back after login
+      localStorage.setItem("redirectAfterLogin", `/booking?hotelId=${hotel.id}`);
+      navigate("/login");
+    }
+  };
+
   return (
-    <div style={{
-      width: "300px",
-      background: "#fff",
-      borderRadius: "12px",
-      overflow: "hidden",
-      boxShadow: "0 4px 15px rgba(0,0,0,0.12)",
-      transition: "0.3s",
-      gap:"20px"
-    }}>
+    <div
+      style={{
+        width: "300px",
+        background: "#fff",
+        borderRadius: "12px",
+        overflow: "hidden",
+        boxShadow: "0 4px 15px rgba(0,0,0,0.12)",
+        transition: "0.3s",
+        gap: "20px",
+      }}
+    >
       <img
         src={hotel.img || "https://via.placeholder.com/250x150?text=No+Image"}
         alt={hotel.name}
         style={{ width: "100%", height: "180px", objectFit: "cover" }}
       />
-
       <div style={{ padding: "15px" }}>
         <h3 style={{ marginBottom: "6px" }}>{hotel.name}</h3>
         <p style={{ color: "#666", margin: "0" }}>{hotel.location}</p>
 
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "10px"}}>
-          <p style={{ margin: 0, fontWeight: "bold", fontSize: "18px", color: "#e63946"}}>
-            ₹{hotel.price} 
+        {/* Optional: show username if logged in */}
+        {isLoggedIn && user?.username && (
+          <p style={{ color: "#333", fontSize: "12px", margin: "4px 0" }}>
+            Logged in as {user.username}
+          </p>
+        )}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "10px",
+            gap: "8px",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontWeight: "bold",
+              fontSize: "18px",
+              color: "#000000ff",
+            }}
+          >
+            ₹{hotel.price}
           </p>
           <p className="mr-8">onwards</p>
 
-          <a
-            href="/booking"
-            style={{
-              textDecoration: "none",
-              fontSize: "14px",
-              fontWeight: "bold",
-              color: "white",
-              background: "red",
-              padding: "6px 10px",
-              borderRadius: "6px"
-            }}
-          >
-            View Details
-          </a>
+          <div style={{ display: "flex", gap: "8px" }}>
+            {/* Book Now button */}
+            <button
+              onClick={handleBooking}
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "white",
+                background: "green",
+                padding: "6px 10px",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              Book Now
+            </button>
+
+            {/* View Details button */}
+            <button
+              onClick={() => navigate(`/hotels/${hotel.id}`)}
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "white",
+                background: "gray",
+                padding: "6px 10px",
+                borderRadius: "6px",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              View Details
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -48,3 +108,8 @@ const HotelCard = ({ hotel }) => {
 };
 
 export default HotelCard;
+
+
+
+
+
