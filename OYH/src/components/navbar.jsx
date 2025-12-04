@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider";
@@ -68,7 +67,7 @@ const Navbar = () => {
               className="text-left font-semibold focus:outline-none"
             >
               <div className="flex items-center gap-2">
-                <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
+                <Link to="/hotels" className="px-3 py-1 rounded border text-center">PG's</Link>
                 <span className="hidden sm:inline">Welcome,</span>
                 <span>{user?.username || "User"}</span>
                 <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -78,9 +77,9 @@ const Navbar = () => {
             </button>
           ) : (
             <div className="flex items-center gap-2">
-              <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
-              <Link to="/login"><button className="px-3 py-1 rounded border">Login</button></Link>
-              <Link to="/signup"><button className="px-3 py-1 rounded border">Signup</button></Link>
+              <Link to="/hotels" className="px-3 py-1 rounded border text-center">PG's</Link>
+              <Link to="/login" className="px-3 py-1 rounded border text-center">Login</Link>
+              <Link to="/signup" className="px-3 py-1 rounded border text-center">Signup</Link>
             </div>
           )}
         </div>
