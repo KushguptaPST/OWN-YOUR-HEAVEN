@@ -30,7 +30,7 @@ export default function ListProperty() {
     setLoading(true);
     try {
       // Send as JSON
-      const response = await api.post("/v1/properties/create/", formData);
+      const response = await api.post("v1/properties/create/", formData);
 
       if (response.status === 201) {
         // 2. Set success state to true

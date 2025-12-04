@@ -66,36 +66,55 @@ const Navbar = () => {
             <button
               onClick={() => setOpen((v) => !v)}
               className="text-left font-semibold focus:outline-none"
+              aria-haspopup="true"
+              aria-expanded={open}
             >
               <div className="flex items-center gap-2">
-                <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
+                              <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
                 <span className="hidden sm:inline">Welcome,</span>
                 <span>{user?.username || "User"}</span>
-                <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z" />
+                <svg className="w-4 h-4 ml-1" viewBox="0 0 20 20" fill="currentColor" aria-hidden>
+                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
                 </svg>
               </div>
             </button>
           ) : (
             <div className="flex items-center gap-2">
               <Link to="/hotels"><button className="px-3 py-1 rounded border">PG's</button></Link>
-              <Link to="/login"><button className="px-3 py-1 rounded border">Login</button></Link>
-              <Link to="/signup"><button className="px-3 py-1 rounded border">Signup</button></Link>
+              <Link to="/login">
+                <button className="px-3 py-1 rounded border">Login</button>
+              </Link>
+              <Link to="/signup">
+                <button className="px-3 py-1 rounded border">Signup</button>
+              </Link>
             </div>
           )}
         </div>
 
         {open && isLoggedIn && (
-          <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
-            <Link to="/help" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => setOpen(false)}>
+          <div
+            className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="user-menu-button"
+          >
+            <Link
+  to="/my-bookings"
+  className="block px-4 py-2 text-sm hover:bg-gray-100"
+  role="menuitem"
+  onClick={() => setOpen(false)}
+>
+  My Bookings
+</Link>
+
+            <Link to="/help" className="block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" onClick={() => setOpen(false)}>
               Help
             </Link>
-            <Link to="/mybookings" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => setOpen(false)}>
-              My Bookings
-            </Link>
+
             <button
               onClick={handleLogout}
               className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+              role="menuitem"
             >
               Logout
             </button>
@@ -107,3 +126,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
