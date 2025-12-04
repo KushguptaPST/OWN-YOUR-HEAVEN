@@ -12,7 +12,7 @@ SECRET_KEY = "your-development-secret-key"  # Change in production!
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", "https://oyh-backend.onrender.com"]
+ALLOWED_HOSTS = ["*", "https://ownyourheaven.com"]
 
 # Installed apps
 INSTALLED_APPS = [

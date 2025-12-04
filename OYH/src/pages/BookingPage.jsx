@@ -63,7 +63,7 @@ const BookingPage = () => {
         <input type="tel" name="phone" placeholder="Phone Number" required value={formData.phone} onChange={handleChange} className="border p-2 rounded" />
         <input type="date" name="checkIn" required value={formData.checkIn} onChange={handleChange} className="border p-2 rounded" />
         <input type="date" name="checkOut" required value={formData.checkOut} onChange={handleChange} className="border p-2 rounded" />
-        <input type="number" name="guests" min={1} required value={formData.guests} onChange={handleChange} className="border p-2 rounded" />
+        <input type="number" name="guests" placeholder="Number of guests" min={1} required value={formData.guests} onChange={handleChange} className="border p-2 rounded" />
         <button type="submit" disabled={loading} className="bg-green-600 text-white py-2 rounded font-bold">
           {loading ? "Booking..." : "Confirm Booking"}
         </button>
