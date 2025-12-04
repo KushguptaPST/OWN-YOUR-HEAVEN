@@ -12,7 +12,7 @@ SECRET_KEY = "your-development-secret-key"  # Change in production!
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", "https://oyh-backend.onrender.com"]
 
 # Installed apps
 INSTALLED_APPS = [
@@ -109,6 +109,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS (Frontend)
