@@ -22,6 +22,7 @@ import BookingPage from "./pages/BookingPage";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import Help from "./pages/Help";
+import MyBookings from "./pages/MyBookings.jsx";
 
 const App = () => {
   const [search, setSearch] = useState("");
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
 
           <Route path="/help" element={<Help />} />
+          <Route path="/mybookings" element={<MyBookings />} />
           
         </Routes>
 

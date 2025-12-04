@@ -6,7 +6,7 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const hotelId = searchParams.get("hotelId"); // Must match the query param from "Book Now"
+  const hotelId = searchParams.get("hotelId");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,24 +29,35 @@ const BookingPage = () => {
     if (!hotelId) return alert("Hotel ID missing!");
 
     setLoading(true);
+
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:8000/api/v1/bookings/create/", // 🔥 Make sure your urls.py points here
-        {
-          hotelId,
-          ...formData,
-        }
+      // Fetch hotel details for booking history
+      const hotelResponse = await fetch(`http://127.0.0.1:8000/api/v1/hotels/${hotelId}/`);
+      const hotelData = await hotelResponse.json();
+
+      // Save booking to localStorage
+      const bookingRecord = {
+        id: Date.now(),
+        hotel: hotelData,
+        bookingInfo: formData,
+      };
+
+      const existingBookings = JSON.parse(localStorage.getItem("myBookings")) || [];
+      existingBookings.push(bookingRecord);
+      localStorage.setItem("myBookings", JSON.stringify(existingBookings));
+
+      // Still send booking to backend
+      await axios.post(
+        "http://127.0.0.1:8000/api/v1/bookings/create/",
+        { hotelId, ...formData }
       );
-      console.log("Booking response:", res.data);
+
       setSuccessMsg("Booking successful!");
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/mybookings"), 2000);
+      
     } catch (err) {
-      console.error("Booking error:", err.response?.data || err.message);
-      alert(
-        `Booking failed! Please check console for details. ${
-          err.response?.data?.error || ""
-        }`
-      );
+      console.error("Booking error:", err);
+      alert("Booking failed! Check console for details.");
     } finally {
       setLoading(false);
     }
@@ -127,4 +138,3 @@ const BookingPage = () => {
 };
 
 export default BookingPage;
-
